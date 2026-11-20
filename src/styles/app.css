@@ -588,25 +588,86 @@ html[data-shape="square"] { --ar: 1 / 1; --arh: 1; --sw: 1.2; }
 .bs-status { width: auto !important; min-width: 0; }
 
 /* Logo mark and Big Screen intro / outro */
-.logo-mark { overflow: visible; flex: none; }
+.logo-mark {
+  overflow: visible; flex: none;
+  /* The core is a power light, so it is green while Lumen is on and red as it goes off. It is the
+     one part of the mark that ignores the accent colour, because the colour is the message. */
+  --logo-core: #2ad04a; --logo-core-glow: rgb(42 208 74 / .8);
+}
+.logo-mark.undraw { --logo-core: #ff3a2f; --logo-core-glow: rgb(255 58 47 / .85); }
+.logo-core { filter: drop-shadow(0 0 3px var(--logo-core-glow)); transform-box: fill-box; transform-origin: center; }
+.logo-disc { transform-box: fill-box; transform-origin: center; }
+
 /* The line is drawn thin and the whole mark thickens once it is closed. The weight is animated on
-   the svg itself, so the ring and the stem thicken together rather than one after the other. */
+   the svg itself, so every path thickens together rather than one after another. */
 .logo-mark.draw { animation: logothicken .5s cubic-bezier(.4,0,.2,1) 1.05s both; }
-.logo-mark.draw .logo-ring { animation: ringdraw .85s cubic-bezier(.65,0,.35,1) .1s both; }
-.logo-mark.draw .logo-stem { animation: stemdraw .3s cubic-bezier(.65,0,.35,1) .85s both; }
 .logo-mark.undraw { animation: logothin .4s cubic-bezier(.4,0,.2,1) both; }
-.logo-mark.undraw .logo-stem { animation: stemundraw .25s cubic-bezier(.65,0,.35,1) .3s both; }
-.logo-mark.undraw .logo-ring { animation: ringundraw .6s cubic-bezier(.65,0,.35,1) .5s both; }
 @keyframes logothicken { from { stroke-width: 1.5; } to { stroke-width: 6.5; } }
 @keyframes logothin { from { stroke-width: 6.5; } to { stroke-width: 1.5; } }
+/* Orbit draws a heavier line than the rest, so it thickens to its own weight. */
+.logo-orbit.draw { animation-name: orbitthicken; }
+.logo-orbit.undraw { animation-name: orbitthin; }
+@keyframes orbitthicken { from { stroke-width: 1.5; } to { stroke-width: 7; } }
+@keyframes orbitthin { from { stroke-width: 7; } to { stroke-width: 1.5; } }
+
+/* Power: the ring, then the stem through the gap. */
+.logo-power.draw .logo-ring { animation: ringdraw .85s cubic-bezier(.65,0,.35,1) .1s both; }
+.logo-power.draw .logo-stem { animation: stemdraw .3s cubic-bezier(.65,0,.35,1) .85s both; }
+.logo-power.undraw .logo-stem { animation: stemundraw .25s cubic-bezier(.65,0,.35,1) .3s both; }
+.logo-power.undraw .logo-ring { animation: ringundraw .6s cubic-bezier(.65,0,.35,1) .5s both; }
+
+/* Orbit: the line goes round and past itself, the disc lands, the light comes on. */
+.logo-orbit.draw .logo-ring { animation: ringdraw 1s cubic-bezier(.65,0,.35,1) .1s both; }
+.logo-orbit.draw .logo-disc { animation: discin .35s cubic-bezier(.2,1.4,.4,1) .9s both; }
+.logo-orbit.draw .logo-core { animation: corein .5s cubic-bezier(.2,1.5,.4,1) 1.15s both; }
+.logo-orbit.undraw .logo-core { animation: coreout .4s ease-in both; }
+.logo-orbit.undraw .logo-disc { animation: discout .3s cubic-bezier(.5,0,.75,0) .25s both; }
+.logo-orbit.undraw .logo-ring { animation: ringundraw .7s cubic-bezier(.65,0,.35,1) .45s both; }
+
+/* Pulse: a closed ring and the light inside it. */
+.logo-pulse.draw .logo-ring { animation: ringdraw .8s cubic-bezier(.65,0,.35,1) .1s both; }
+.logo-pulse.draw .logo-core { animation: corein .5s cubic-bezier(.2,1.5,.4,1) .85s both; }
+.logo-pulse.undraw .logo-core { animation: coreout .4s ease-in both; }
+.logo-pulse.undraw .logo-ring { animation: ringundraw .6s cubic-bezier(.65,0,.35,1) .35s both; }
+
+/* Reactor: three arcs of one circle, arriving one after the other. */
+.logo-reactor.draw .logo-ring { animation: ringdraw .45s cubic-bezier(.65,0,.35,1) .1s both; }
+.logo-reactor.draw .logo-ring-b { animation: ringdraw .45s cubic-bezier(.65,0,.35,1) .3s both; }
+.logo-reactor.draw .logo-ring-c { animation: ringdraw .45s cubic-bezier(.65,0,.35,1) .5s both; }
+.logo-reactor.draw .logo-core { animation: corein .5s cubic-bezier(.2,1.5,.4,1) .9s both; }
+.logo-reactor.undraw .logo-core { animation: coreout .4s ease-in both; }
+.logo-reactor.undraw .logo-ring { animation: ringundraw .4s cubic-bezier(.65,0,.35,1) .55s both; }
+.logo-reactor.undraw .logo-ring-b { animation: ringundraw .4s cubic-bezier(.65,0,.35,1) .45s both; }
+.logo-reactor.undraw .logo-ring-c { animation: ringundraw .4s cubic-bezier(.65,0,.35,1) .35s both; }
+
+/* Spark: the first mark Lumen had. Its ring is open, so it draws over its own 80%. */
+.logo-spark.draw .logo-ring { animation: sparkringdraw .9s cubic-bezier(.65,0,.35,1) .1s both; }
+.logo-spark.draw .logo-core { animation: corein .55s cubic-bezier(.2,1.5,.4,1) .95s both; }
+.logo-spark.undraw .logo-core { animation: coreout .4s ease-in both; }
+.logo-spark.undraw .logo-ring { animation: sparkringundraw .65s cubic-bezier(.65,0,.35,1) .35s both; }
+@keyframes sparkringdraw { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
+@keyframes sparkringundraw { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 80; } }
+
 @keyframes ringdraw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 @keyframes ringundraw { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 100; } }
 @keyframes stemdraw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 @keyframes stemundraw { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 100; } }
+@keyframes discin { from { transform: scale(0); } to { transform: none; } }
+@keyframes discout { from { transform: none; } to { transform: scale(0); } }
+/* The light does not just appear, it comes on: dark, then over bright, then settled. */
+@keyframes corein {
+  0% { transform: scale(0); filter: none; }
+  55% { transform: scale(1.35); filter: drop-shadow(0 0 9px var(--logo-core-glow)); }
+  100% { transform: none; filter: drop-shadow(0 0 3px var(--logo-core-glow)); }
+}
+@keyframes coreout {
+  0% { transform: none; filter: drop-shadow(0 0 3px var(--logo-core-glow)); }
+  45% { transform: scale(1.3); filter: drop-shadow(0 0 11px var(--logo-core-glow)); }
+  100% { transform: scale(0); filter: none; }
+}
 /* Nobody should watch a line draw itself when they have asked the system for less movement. */
 @media (prefers-reduced-motion: reduce) {
-  .logo-mark.draw, .logo-mark.draw .logo-ring, .logo-mark.draw .logo-stem,
-  .logo-mark.undraw, .logo-mark.undraw .logo-ring, .logo-mark.undraw .logo-stem { animation: none; }
+  .logo-mark, .logo-mark * { animation: none !important; }
 }
 .bs-boot { gap: 18px !important; animation: bootout 3s var(--ease) forwards !important; justify-items: center; overflow: hidden; }
 .bs-boot .logo-mark { filter: drop-shadow(0 0 26px var(--glow)); position: relative; }
@@ -1024,6 +1085,15 @@ html[data-motion="reduce"] .bs-settings .modal { animation: none; }
 .vibes.v-photo > *, .bs > .bs-vibes:not(.bs-bg).v-photo > *, .vibes-mini.v-photo > * { position: relative; z-index: 1; }
 
 /* The vibes card picker in Settings: each tile is the real look, drawn small. */
+/* The mark picker. Each tile holds the real mark at a size where the animation is readable. */
+.logo-styles { display: grid; grid-template-columns: repeat(auto-fill, minmax(146px, 1fr)); gap: 14px; margin: 6px 0 10px; }
+.logo-style { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 10px 10px; border-radius: 14px; border: 1px solid var(--border); background: var(--panel); color: var(--text); cursor: pointer; text-align: center; }
+.logo-style:hover { border-color: color-mix(in srgb, var(--accent) 60%, var(--border)); }
+.logo-style.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--panel)); }
+.logo-style b { font-size: .9rem; }
+.logo-style small { color: var(--muted); font-size: .72rem; line-height: 1.25; }
+.logo-mini { display: grid; place-items: center; width: 100%; height: 72px; margin-bottom: 4px; border-radius: 10px; background: var(--panel2); }
+
 .vibe-styles { display: grid; grid-template-columns: repeat(auto-fill, minmax(146px, 1fr)); gap: 14px; margin: 6px 0 10px; }
 .vibe-style { display: flex; flex-direction: column; gap: 4px; padding: 12px 10px 10px; border-radius: 14px; border: 1px solid var(--border); background: var(--panel); color: var(--text); cursor: pointer; text-align: center; }
 .vibe-style:hover { border-color: color-mix(in srgb, var(--accent) 60%, var(--border)); }

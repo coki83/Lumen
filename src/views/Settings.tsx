@@ -4,8 +4,8 @@ import { APP_SHORTCUTS, DEFAULT_KEYS, DEFAULT_PAD, DEFAULT_SHORTCUTS, PAD_ACTION
 import { WALLPAPERS, Wallpaper } from '../components/Wallpaper';
 import { capturePadButton } from '../lib/gamepad';
 import { playSound } from '../lib/sound';
-import type { AccountId, AccountInfo, ArtSourceId, CouchStatus, Settings, SourceId } from '../../shared/types';
-import { Icon } from '../components/Icon';
+import type { AccountId, AccountInfo, ArtSourceId, CouchStatus, LogoStyle, Settings, SourceId } from '../../shared/types';
+import { Icon, Logo } from '../components/Icon';
 import { Drives, driveCounts } from '../components/Drives';
 import { Temps } from '../components/Temps';
 import { SAVERS } from '../components/Screensaver';
@@ -88,6 +88,7 @@ export function SettingsPanel({ onClose, tv = false }: { onClose(): void; tv?: b
                 {ACCENT_SWATCHES.map((c) => <button key={c} className={`swatch ${s.accent === c ? 'on' : ''}`} style={{ background: c }} onClick={() => set({ accent: c })} aria-label={c} />)}
                 <label className="swatch custom" title="Pick any color"><input type="color" value={s.accent || '#ff8a3d'} onChange={(e) => set({ accent: e.target.value })} /></label>
               </div>
+              <LogoPicker />
               <h4>Text</h4>
               <label className="row"><span className="lbl">Font</span>
                 <select className="select" value={s.font} onChange={(e) => set({ font: e.target.value as Settings['font'] })}>
@@ -795,6 +796,43 @@ const VIBES_STYLES = [
   { id: 'glass', name: 'Glass', hint: 'Frosted and see-through' },
   { id: 'hidden', name: 'Off', hint: 'No card on Home at all' }
 ] as const;
+
+const LOGO_STYLES: { id: LogoStyle; name: string; hint: string }[] = [
+  { id: 'power', name: 'Power', hint: 'A power button. The line draws, then thickens.' },
+  { id: 'orbit', name: 'Orbit', hint: 'A spiral past its own tail, around a lit core.' },
+  { id: 'pulse', name: 'Pulse', hint: 'One closed ring and the light inside it.' },
+  { id: 'reactor', name: 'Reactor', hint: 'Three arcs that arrive one after the other.' },
+  { id: 'spark', name: 'Spark', hint: "Lumen's first mark: a ring with a spark." }
+];
+
+/**
+ * Picking a mark from a still picture tells you nothing about the half of it that moves, so every
+ * one here is the real mark, really animating. Clicking any of them replays all five, which is the
+ * only way to compare them fairly.
+ */
+function LogoPicker() {
+  const { settings: s, saveSettings: set } = useLumen();
+  const now = s.logoStyle ?? 'power';
+  // A counter rather than a flag: picking the same mark again has to replay it, and a flag that is
+  // already true would not change and so would not remount anything.
+  const [play, setPlay] = useState(0);
+  return (
+    <>
+      <h4>Lumen mark</h4>
+      <p className="hint">The logo in the sidebar, on the empty library screen and in the Big Screen intro. Pick one to watch it draw itself; picking it again plays it over. The light in the middle is green while Lumen is on, and turns red as it goes off.</p>
+      <div className="logo-styles">
+        {LOGO_STYLES.map((l) => (
+          <button key={l.id} type="button" className={`logo-style ${now === l.id ? 'on' : ''}`}
+                  onClick={() => { set({ logoStyle: l.id }); setPlay((n) => n + 1); }} title={l.hint}>
+            <span className="logo-mini"><Logo key={`${l.id}-${play}`} size={54} style={l.id} animate /></span>
+            <b>{l.name}</b>
+            <small>{l.hint}</small>
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
 
 const VIBES_MOODS = [
   { value: 'auto', label: 'Rotate daily' }, { value: 'weather', label: 'Weather' }, { value: 'positive', label: 'Positive vibes' },

@@ -36,6 +36,7 @@ export const DEFAULT_SETTINGS: Settings = {
   cardSize: 180,
   cardRadius: 12,
   cardStyle: 'classic',
+  logoStyle: 'power',
   vibesStyle: 'panel',
   vibesMood: 'auto',
   newsLanguage: 'auto',

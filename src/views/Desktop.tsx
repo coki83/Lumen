@@ -311,7 +311,7 @@ export function Desktop({ onBigScreen }: { onBigScreen(): void }) {
 
       <aside className="sidebar">
         <div className="brand">
-          <Logo />
+          <Logo style={settings.logoStyle} />
           <span className="nav-label">Lumen</span>
           <button className="icon-btn ghost collapse" onClick={() => saveSettings({ sidebarCollapsed: !settings.sidebarCollapsed })} title={t('Collapse sidebar')}>
             <Icon name="sidebar" size={16} />
@@ -493,6 +493,7 @@ function Backdrop({ url }: { url?: string }) {
 }
 
 function Empty({ q, view, onScan, onAdd }: { q: string; view: View; onScan(): void; onAdd(): void }) {
+  const { settings } = useLumen();
   if (q) return <div className="empty"><h3>{t('Nothing matches “{q}”', { q })}</h3><p>{t('Try another name or a collection.')}</p></div>;
   if (view.kind === 'favorites') return <div className="empty"><h3>{t('No favorites yet')}</h3><p>{t('Right-click a game, or press the star on its page, to pin it here.')}</p></div>;
   if (view.kind === 'category') return <div className="empty"><h3>{t('This collection is empty')}</h3><p>{t('Right-click any game and tick “{name}” to add it.', { name: view.name })}</p></div>;
@@ -509,7 +510,7 @@ function Empty({ q, view, onScan, onAdd }: { q: string; view: View; onScan(): vo
   );
   return (
     <div className="empty">
-      <Logo size={56} />
+      <Logo size={56} style={settings.logoStyle} />
       <h3>{t('Your library is empty')}</h3>
       <p>{t('Lumen looks for games from Steam, Epic, GOG, EA, Ubisoft, Xbox, Battle.net and Amazon. Install a game in any of them, then scan again, or add any program yourself.')}</p>
       <div className="row-btns">

@@ -104,7 +104,23 @@ The Lumen mark is a power button: one ring with a gap at the top and one stem th
 
 The intro is one line being drawn. It arrives hairline thin, travels round the circle, the stem drops through the gap, and only once the shape is closed does the whole mark thicken to its real weight. It takes about 1.6 seconds, and the word LUMEN starts appearing at the moment the thickening starts. Leaving Big Screen plays the same thing backwards: the mark thins, the stem lifts out and the ring unwinds. Both come with a chime, and both are off under Settings → Big Screen → Intro and outro animation. The system setting for reduced motion skips the drawing entirely and shows the finished mark.
 
-Logo files (SVG and PNG: mark, app icon, wordmark in dark and light) are in the `logo` folder next to this README, and the installed program's icon is the same mark on its rounded square.
+### Picking a mark
+
+Settings → Appearance → Lumen mark holds five of them, and every tile in the picker is the real mark really animating, because a still picture says nothing about the half of it that moves. Picking one plays all five over, which is the only fair way to compare them.
+
+| | |
+|---|---|
+| **Power** | A power button. The line draws, then thickens. The one Lumen starts with. |
+| **Orbit** | A spiral that comes back round past its own tail, around a lit core. |
+| **Pulse** | One closed ring and the light inside it. |
+| **Reactor** | Three arcs of one circle, arriving one after the other. |
+| **Spark** | Lumen's first mark: a ring of light with a spark breaking out of it. |
+
+Every mark but Power has a **core**, and the core is a power light: it comes on green as Lumen starts and turns red as it goes off, flaring once on the way in and once on the way out. It is the only part of the mark that ignores your accent colour, because there the colour is the message.
+
+![Every mark, finished and part way through](logo-styles.png)
+
+Logo files (SVG and PNG: mark, app icon, wordmark in dark and light) are in the `logo` folder next to this README. The installed program's icon is the Power mark whichever one you pick, because Windows takes the icon from the exe when it is built and cannot be told to change it later.
 
 ## Animations
 

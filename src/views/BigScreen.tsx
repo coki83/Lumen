@@ -432,7 +432,7 @@ export function BigScreen({ onExit }: { onExit(): void }) {
       {booting && intro && (
         <div className="bs-boot">
           <div className="bs-boot-glow" />
-          <Logo size={150} animate />
+          <Logo size={150} animate style={settings.logoStyle} />
           <b>{'LUMEN'.split('').map((ch, i) => <i key={i} style={{ animationDelay: `${1.05 + i * 0.09}s` }}>{ch}</i>)}</b>
           <small>{t('All your games, one place')}</small>
         </div>
@@ -440,7 +440,7 @@ export function BigScreen({ onExit }: { onExit(): void }) {
       {leaving && (
         <div className="bs-boot bs-outro">
           <div className="bs-boot-glow" />
-          <Logo size={150} out />
+          <Logo size={150} out style={settings.logoStyle} />
           <b className="gg"><i>G</i><i>G</i></b>
           <small>{t('Good game. See you soon.')}</small>
         </div>
@@ -454,7 +454,7 @@ export function BigScreen({ onExit }: { onExit(): void }) {
 
       <header className="bs-top">
         <div className="bs-brand">
-          <div className="bs-brand-name"><Logo size={30} /> <span>Lumen</span></div>
+          <div className="bs-brand-name"><Logo size={30} style={settings.logoStyle} /> <span>Lumen</span></div>
           {/* Up to two pads are named here; a full couch would push the header into the artwork,
               so beyond that it is a count, with every name on the icon in the corner. */}
           {padInfo.pads.length > 2

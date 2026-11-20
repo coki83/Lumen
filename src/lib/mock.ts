@@ -27,7 +27,7 @@ const DEFAULTS: Settings = {
   screensaverWhere: 'bigscreen',
   screensaverClock: true,
  backgroundImage: '', backgroundBlur: 40, backgroundDim: 0.7,
-  layout: 'grid', cardSize: 180, cardRadius: 12, cardStyle: 'classic', vibesStyle: 'panel', vibesMood: 'auto', newsLanguage: 'auto', language: 'auto', showTitles: true, showSourceBadges: true, sort: 'playtime', fontScale: 1,
+  layout: 'grid', cardSize: 180, cardRadius: 12, cardStyle: 'classic', logoStyle: 'power', vibesStyle: 'panel', vibesMood: 'auto', newsLanguage: 'auto', language: 'auto', showTitles: true, showSourceBadges: true, sort: 'playtime', fontScale: 1,
   font: 'theme', density: 'cozy', sidebarCollapsed: false, reduceMotion: false, startInBigScreen: false, launchOnStartup: false,
   minimizeOnLaunch: true, bigScreenLayout: 'rows', bigScreenRows: ['recent', 'favorites', 'all', 'sources'],
   enabledSources: { steam: true, epic: true, gog: true, ea: true, ubisoft: true, xbox: true, battlenet: true, amazon: true, quiver: true, manual: true },

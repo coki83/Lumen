@@ -75,6 +75,9 @@ export type SortKey = 'title' | 'recent' | 'added' | 'playtime' | 'source';
 
 export type CardStyle = 'classic' | 'flat' | 'frame' | 'glass' | 'neon' | 'rgb' | 'shelf' | 'sticker';
 /** The look of the vibes card on Home. 'hidden' leaves it out of both views. */
+/** Which mark Lumen draws for itself. All of them animate; the ones with a core light it. */
+export type LogoStyle = 'power' | 'orbit' | 'pulse' | 'reactor' | 'spark';
+
 export type VibesStyle = 'panel' | 'soft' | 'outline' | 'glass' | 'bold' | 'photo' | 'hidden';
 /** Which mood the vibes card uses. 'auto' rotates through the ones that fit, a day at a time. */
 export type VibesMood = 'auto' | 'weather' | 'positive' | 'fresh' | 'comeback' | 'quick' | 'night' | 'morning' | 'deep' | 'news' | 'releases' | 'world';
@@ -156,6 +159,8 @@ export interface Settings {
   tempsOn?: boolean;
   /** Play the logo animation when Big Screen starts and exits. Missing counts as on. */
   bigScreenIntro?: boolean;
+  /** Which mark Lumen uses for itself, everywhere it shows one. Missing counts as 'power'. */
+  logoStyle?: LogoStyle;
   /** The button hints along the bottom of Big Screen: always on, gone once you stop pressing, or never. */
   bigScreenHints?: 'auto' | 'always' | 'off';
   /** Shape of the game tiles everywhere. */
