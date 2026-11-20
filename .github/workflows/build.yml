@@ -41,10 +41,14 @@ jobs:
           path: |
             release/Lumen-win.zip
             release/*.exe
+      # A tag like v0.1.0 is all it takes: the notes come from RELEASE-NOTES.md in the repo, so
+      # there is nothing to type into the release page.
       - name: Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
+          name: Lumen ${{ github.ref_name }}
+          body_path: RELEASE-NOTES.md
           files: |
             release/Lumen-win.zip
             release/*.exe
