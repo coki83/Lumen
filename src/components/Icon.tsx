@@ -64,24 +64,29 @@ export function Icon({ name, size = 18, fill = false, className }: { name: strin
  * The Lumen mark: a ring of light with a spark breaking out of it at the top right.
  * `animate` draws it in (Big Screen intro); `out` plays it backwards (outro).
  */
+/**
+ * The mark: a power button. One ring with a gap at the top and one stem through it, nothing else.
+ *
+ * Drawn rather than filled, because the whole animation is one line being drawn: it arrives thin,
+ * goes round, and only thickens to its real weight once the shape is complete. The weight lives on
+ * the <svg> so both paths inherit it and one animation thickens the whole mark at once.
+ */
 export function Logo({ size = 26, animate, out }: { size?: number; animate?: boolean; out?: boolean }) {
   return (
-    <svg className={`logo-mark ${animate ? 'draw' : ''} ${out ? 'undraw' : ''}`} width={size} height={size} viewBox="0 0 64 64" aria-hidden>
-      <defs>
-        <linearGradient id="lumen-ring" x1="0.1" y1="1" x2="0.9" y2="0">
-          <stop offset="0" stopColor="var(--accent)" stopOpacity="0.3" />
-          <stop offset="0.55" stopColor="var(--accent)" />
-          <stop offset="1" stopColor="var(--accent)" />
-        </linearGradient>
-        <radialGradient id="lumen-spark" cx="0.35" cy="0.35" r="0.8">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.95" />
-          <stop offset="0.45" stopColor="var(--accent)" />
-          <stop offset="1" stopColor="var(--accent)" />
-        </radialGradient>
-      </defs>
-      {/* the ring starts just past the spark and runs almost all the way round, leaving a gap for it */}
-      <circle className="logo-ring" cx="29" cy="35" r="20.5" fill="none" stroke="url(#lumen-ring)" strokeWidth="7" strokeLinecap="round" pathLength={100} strokeDasharray="80 100" transform="rotate(-18 29 35)" />
-      <circle className="logo-spark" cx="46.5" cy="17.5" r="7.5" fill="url(#lumen-spark)" />
+    <svg
+      className={`logo-mark ${animate ? 'draw' : ''} ${out ? 'undraw' : ''}`}
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      fill="none"
+      stroke="var(--accent)"
+      strokeWidth={6.5}
+      strokeLinecap="round"
+      aria-hidden
+    >
+      {/* 250 degrees of circle, centred at 32,35, leaving the gap the stem passes through */}
+      <path className="logo-ring" d="M15.6 23.5A20 20 0 1 0 48.4 23.5" pathLength={100} strokeDasharray="100 100" />
+      <path className="logo-stem" d="M32 8V30" pathLength={100} strokeDasharray="100 100" />
     </svg>
   );
 }

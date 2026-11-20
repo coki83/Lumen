@@ -98,7 +98,13 @@ The space between tiles grows with the tiles. A picked tile swells a little wher
 
 ## Logo, intro and outro
 
-The Lumen mark is a ring of light with a spark breaking out of it. Logo files (SVG and PNG: mark, app icon, wordmark) are in the `logo` folder next to this README, and the app icon uses it. Big Screen plays a short logo animation with a chime when it starts and when you exit; turn it off in Settings → Big Screen → Intro and outro animation.
+The Lumen mark is a power button: one ring with a gap at the top and one stem through it, drawn in the accent colour and nothing else. It is a stroke rather than a filled shape, which is what lets the intro draw it.
+
+![The intro, frame by frame](logo-animation.png)
+
+The intro is one line being drawn. It arrives hairline thin, travels round the circle, the stem drops through the gap, and only once the shape is closed does the whole mark thicken to its real weight. It takes about 1.6 seconds, and the word LUMEN starts appearing at the moment the thickening starts. Leaving Big Screen plays the same thing backwards: the mark thins, the stem lifts out and the ring unwinds. Both come with a chime, and both are off under Settings → Big Screen → Intro and outro animation. The system setting for reduced motion skips the drawing entirely and shows the finished mark.
+
+Logo files (SVG and PNG: mark, app icon, wordmark in dark and light) are in the `logo` folder next to this README, and the installed program's icon is the same mark on its rounded square.
 
 ## Animations
 

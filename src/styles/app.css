@@ -589,14 +589,25 @@ html[data-shape="square"] { --ar: 1 / 1; --arh: 1; --sw: 1.2; }
 
 /* Logo mark and Big Screen intro / outro */
 .logo-mark { overflow: visible; flex: none; }
-.logo-mark.draw .logo-ring { stroke-dasharray: 0 100; animation: ringdraw 1.15s cubic-bezier(.6,.05,.2,1) .25s forwards; }
-.logo-mark.draw .logo-spark { transform-box: fill-box; transform-origin: center; animation: sparkin 1s cubic-bezier(.2,.9,.2,1) both; }
-.logo-mark.undraw .logo-ring { animation: ringundraw .9s cubic-bezier(.6,.05,.2,1) .15s forwards; }
-.logo-mark.undraw .logo-spark { transform-box: fill-box; transform-origin: center; animation: sparkout .7s ease-in .85s forwards; }
-@keyframes ringdraw { to { stroke-dasharray: 80 100; } }
-@keyframes ringundraw { to { stroke-dasharray: 0 100; } }
-@keyframes sparkin { 0% { transform: translate(-150px, 120px) scale(.2); opacity: 0; } 35% { opacity: 1; } 70% { transform: translate(6px, -6px) scale(1.5); } 100% { transform: none; } }
-@keyframes sparkout { 0% { transform: none; opacity: 1; } 40% { transform: scale(1.7); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
+/* The line is drawn thin and the whole mark thickens once it is closed. The weight is animated on
+   the svg itself, so the ring and the stem thicken together rather than one after the other. */
+.logo-mark.draw { animation: logothicken .5s cubic-bezier(.4,0,.2,1) 1.05s both; }
+.logo-mark.draw .logo-ring { animation: ringdraw .85s cubic-bezier(.65,0,.35,1) .1s both; }
+.logo-mark.draw .logo-stem { animation: stemdraw .3s cubic-bezier(.65,0,.35,1) .85s both; }
+.logo-mark.undraw { animation: logothin .4s cubic-bezier(.4,0,.2,1) both; }
+.logo-mark.undraw .logo-stem { animation: stemundraw .25s cubic-bezier(.65,0,.35,1) .3s both; }
+.logo-mark.undraw .logo-ring { animation: ringundraw .6s cubic-bezier(.65,0,.35,1) .5s both; }
+@keyframes logothicken { from { stroke-width: 1.5; } to { stroke-width: 6.5; } }
+@keyframes logothin { from { stroke-width: 6.5; } to { stroke-width: 1.5; } }
+@keyframes ringdraw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes ringundraw { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 100; } }
+@keyframes stemdraw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes stemundraw { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 100; } }
+/* Nobody should watch a line draw itself when they have asked the system for less movement. */
+@media (prefers-reduced-motion: reduce) {
+  .logo-mark.draw, .logo-mark.draw .logo-ring, .logo-mark.draw .logo-stem,
+  .logo-mark.undraw, .logo-mark.undraw .logo-ring, .logo-mark.undraw .logo-stem { animation: none; }
+}
 .bs-boot { gap: 18px !important; animation: bootout 3s var(--ease) forwards !important; justify-items: center; overflow: hidden; }
 .bs-boot .logo-mark { filter: drop-shadow(0 0 26px var(--glow)); position: relative; }
 .bs-boot b { display: flex; font-size: 2.6rem !important; letter-spacing: .34em !important; text-indent: .34em !important; animation: none !important; position: relative; margin-top: 10px; }
