@@ -1,0 +1,82 @@
+{
+  "name": "lumen-launcher",
+  "productName": "Lumen",
+  "version": "0.1.0",
+  "description": "One library for every PC game: Steam, Epic, GOG, EA, Ubisoft, Xbox, Battle.net, Amazon and your own games.",
+  "main": "dist-electron/electron/main.js",
+  "author": "Coki",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coki83/Lumen.git"
+  },
+  "homepage": "https://github.com/coki83/Lumen#readme",
+  "bugs": {
+    "url": "https://github.com/coki83/Lumen/issues"
+  },
+  "scripts": {
+    "dev": "concurrently -k \"vite\" \"npm:dev:electron\"",
+    "dev:electron": "tsc -p tsconfig.electron.json && wait-on tcp:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .",
+    "dev:web": "vite",
+    "build": "tsc -p tsconfig.electron.json && tsc --noEmit -p tsconfig.json && vite build",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --win",
+    "dist:portable": "npm run build && electron-builder --win portable"
+  },
+  "dependencies": {
+    "sql.js": "^1.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/sql.js": "^1.4.11",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "app.lumen.launcher",
+    "productName": "Lumen",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "build/icon.png",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "Lumen"
+    }
+  }
+}

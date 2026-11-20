@@ -1,0 +1,18 @@
+node_modules/
+dist/
+dist-electron/
+release/
+
+# editors and operating systems
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# local notes, logs and scratch files
+*.log
+npm-debug.log*
+.env
+.env.*
+shots/
+tmp/

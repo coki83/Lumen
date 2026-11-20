@@ -1,0 +1,32 @@
+Lumen - if Windows says "Windows protected your PC"
+===================================================
+
+That blue or purple box is Microsoft Defender SmartScreen. It appears for every program that
+Windows has not seen before and that has not been signed with a paid certificate. It is not a
+virus warning and it says nothing about Lumen itself: a brand new program from a small author
+always gets it.
+
+You can click "More info" and then "Run anyway" every time, or you can stop it for good in ten
+seconds:
+
+Before you unzip
+----------------
+1. Right-click the Lumen zip you downloaded.
+2. Choose Properties.
+3. At the bottom, tick "Unblock", then press OK.
+4. Now unzip it and run Lumen.exe. No warning.
+
+If you already unzipped
+-----------------------
+Open PowerShell in the folder holding Lumen.exe and run:
+
+    Get-ChildItem -Recurse | Unblock-File
+
+Then start Lumen again.
+
+Why can't Lumen turn it off itself?
+-----------------------------------
+It cannot, and no program can: that is the point of SmartScreen. The only way to make it stop
+for everyone, without unblocking, is a code signing certificate bought from a certificate
+authority, with an identity check. An EV certificate silences it from the first run; a cheaper
+OV one stays quiet only after enough people have run the app.
