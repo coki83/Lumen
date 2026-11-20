@@ -287,8 +287,8 @@ export function createMockApi(): LumenApi {
       { letter: 'E:', label: 'Backup', total: 500 * 1024 ** 3, free: 22 * 1024 ** 3, removable: false }
     ],
     weather: async () => ({ ok: true, place: settings.weatherCity || 'Berlin, DE', temp: 7, feels: 4, wind: 14, unit: settings.weatherUnit ?? 'c', isDay: false, kind: 'rain' as const, label: 'Rain', at: Date.now() }),
-    couchStatus: async () => ({ enabled: !!settings.couchMode, exe: 'C:\\Games\\Lumen\\Lumen.exe', arg: '--bigscreen', link: 'lumen://bigscreen', linkRegistered: !!settings.couchMode, omniConsole: false, windowsBuild: 26100, windowsRevision: 8328, fseTool: false, fseToolCanOpen: false, fseCapable: true }),
-    couchSetup: async (on) => { settings = { ...settings, couchMode: on, startInBigScreen: on, launchOnStartup: on }; return { enabled: on, exe: 'C:\\Games\\Lumen\\Lumen.exe', arg: '--bigscreen', link: 'lumen://bigscreen', linkRegistered: on, omniConsole: false, windowsBuild: 26100, windowsRevision: 8328, fseTool: false, fseToolCanOpen: false, fseCapable: true }; },
+    couchStatus: async () => ({ enabled: !!settings.couchMode, exe: 'C:\\Games\\Lumen\\Lumen.exe', arg: '--bigscreen', link: 'lumen://bigscreen', linkRegistered: !!settings.couchMode, omniConsole: false, anyFse: false, anyFseCanOpen: false, windowsBuild: 26100, windowsRevision: 8328, fseTool: false, fseToolCanOpen: false, fseCapable: true }),
+    couchSetup: async (on) => { settings = { ...settings, couchMode: on, startInBigScreen: on, launchOnStartup: on }; return { enabled: on, exe: 'C:\\Games\\Lumen\\Lumen.exe', arg: '--bigscreen', link: 'lumen://bigscreen', linkRegistered: on, omniConsole: false, anyFse: false, anyFseCanOpen: false, windowsBuild: 26100, windowsRevision: 8328, fseTool: false, fseToolCanOpen: false, fseCapable: true }; },
     couchOpen: async () => undefined,
     quit: async () => undefined,
     onLibraryChanged: (cb) => {

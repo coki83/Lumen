@@ -622,7 +622,8 @@ function CouchMode() {
       </div>
       {on && <p className="ok couch-on">✓ Couch mode is on</p>}
       <h4>Windows Xbox mode (full screen experience)</h4>
-      <p className="hint">Windows only lets Store-style apps be the Xbox mode home app, so Lumen can't take that slot itself. The free OmniConsole app can: Windows starts OmniConsole, and OmniConsole starts Lumen in Big Screen.</p>
+      <p className="hint">Windows only lets Store-style apps be the Xbox mode home app, so Lumen can't take that slot itself. A free bridge app can: Windows starts the bridge, the bridge starts Lumen in Big Screen, and the PC comes up on the TV in Big Screen with nothing on screen but Lumen.</p>
+      <p className="hint">Use <b>AnyFSE</b>. It takes a custom program, so Lumen goes in as itself, and it is a small MIT-licensed app. OmniConsole, in the box at the end, does the same job and is still there if you already use it. Lumen never installs either of them for you: between them they want administrator rights, a certificate and Windows' developer mode, and that is not a games launcher's business. The steps below hand you the exact path and argument to paste.</p>
       <ol className="couch-steps">
         <li>
           <span>Turn on couch mode above.</span>
@@ -638,11 +639,13 @@ function CouchMode() {
             : <button className="btn small" onClick={() => api.couchOpen('fseTool')}>Get the tool</button>}
         </li>
         <li>
-          <span>Install OmniConsole.</span>
-          {st?.omniConsole ? <span className="ok">✓ Installed</span> : <button className="btn small" onClick={() => api.couchOpen('omniconsole')}>Get OmniConsole</button>}
+          <span>Install AnyFSE: download <code>AnyFSE.Installer.exe</code> from its releases page and run it. It asks for administrator rights and may draw a Defender warning, because it has to register itself with Windows as a home app.</span>
+          {st?.anyFse
+            ? <span className="couch-copy"><span className="ok">✓ Installed</span>{st.anyFseCanOpen && <button className="btn small" onClick={() => api.couchOpen('openAnyFse')}>Open its folder</button>}</span>
+            : <button className="btn small" onClick={() => api.couchOpen('anyfse')}>Get AnyFSE</button>}
         </li>
         <li>
-          <span>In OmniConsole, add Lumen as a custom platform. Use the program path with the launch argument, or the link.</span>
+          <span>Find AnyFSE in the Start menu, right-click it and choose <b>Configure</b>. Pick the custom executable option and paste Lumen's path, with <code>--bigscreen</code> as the startup argument.</span>
           <span className="couch-copy">
             <button className="btn small" onClick={() => copy('copyPath')}>{copied === 'copyPath' ? 'Copied' : 'Copy path'}</button>
             <button className="btn small" onClick={() => copy('copyArg')}>{copied === 'copyArg' ? 'Copied' : 'Copy argument'}</button>
@@ -650,8 +653,12 @@ function CouchMode() {
           </span>
         </li>
         <li>
-          <span>In Windows Settings → Gaming → Full screen experience, choose OmniConsole as the home app and turn on entering it at startup.</span>
+          <span>In Windows Settings → Gaming → Full screen experience, choose AnyFSE as the home app and turn on entering it at startup. That is the whole thing: the PC now starts on the TV in Lumen.</span>
           <button className="btn small" onClick={() => api.couchOpen('gaming')}>Open Gaming settings</button>
+        </li>
+        <li className="couch-alt">
+          <span><b>Instead of AnyFSE, if you prefer:</b> OmniConsole does the same job. Install it, add Lumen as a custom platform with the same path and argument, and choose OmniConsole as the home app in step 5.</span>
+          {st?.omniConsole ? <span className="ok">✓ Installed</span> : <button className="btn small" onClick={() => api.couchOpen('omniconsole')}>Get OmniConsole</button>}
         </li>
       </ol>
       {st && <p className="hint couch-vals"><code>{st.exe}</code> <code>{st.arg}</code> · <code>{st.link}</code></p>}

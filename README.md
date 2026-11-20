@@ -148,15 +148,21 @@ Settings, Menus and weather, **Vibes card** sets how it looks and which mood it 
 
 Settings → Big Screen → **Set up couch mode** does the sofa setup in one click: Lumen starts with Windows, opens straight into full screen Big Screen, and gets a "Lumen Big Screen" desktop shortcut plus a `lumen://bigscreen` link. Starting `Lumen.exe --bigscreen` (or the link) while Lumen is already open switches the running window to Big Screen.
 
-Windows 11's Xbox mode (full screen experience) only accepts Store-style packaged apps as its home app, so Lumen can't be chosen there directly. The free [OmniConsole](https://8bit2qubit.github.io/omniconsole-site/download/) app can, and it starts any launcher you point it at:
+Windows 11's Xbox mode (full screen experience) only accepts Store-style packaged apps as its home app, so Lumen can't be chosen there directly. A small bridge app can take that slot and start Lumen: Windows starts the bridge, the bridge starts Lumen in Big Screen, and the PC comes up on the TV with nothing on it but Lumen.
+
+Use **[AnyFSE](https://github.com/ashpynov/AnyFSE/releases/latest)** (MIT). It can be pointed at a custom program, so Lumen goes in as itself.
 
 1. Turn on couch mode.
 2. Unlock the full Xbox mode with the free [Xbox Full Screen Experience Tool](https://github.com/8bit2qubit/XboxFullScreenExperienceTool): install it, press "Enable Xbox Mode (FSE)" and let the PC restart. Normal PCs need this to get "Choose home app". It changes Windows system settings, so make a restore point first; its "Disable & Restore" button undoes it. Lumen shows whether it is installed and checks your Windows build (26100.7019 or newer).
-3. Install OmniConsole (the settings page has a button and shows whether it is installed).
-4. In OmniConsole add Lumen as a custom platform: the path to `Lumen.exe` with the argument `--bigscreen`, or the link `lumen://bigscreen`. The settings page has copy buttons for all three.
-5. In Windows Settings → Gaming → Full screen experience, choose OmniConsole as the home app and turn on entering it at startup.
+3. Install AnyFSE: download `AnyFSE.Installer.exe` from its releases page and run it. It wants administrator rights and may draw a Defender warning, because registering itself with Windows as a home app means touching developer mode and the certificate store. The settings page has a button for the download and says whether it is already installed.
+4. Find AnyFSE in the Start menu, right-click it and choose **Configure**. Pick the custom executable option and give it the path to `Lumen.exe` with the startup argument `--bigscreen`. The settings page has copy buttons for the path, the argument and the `lumen://bigscreen` link.
+5. In Windows Settings → Gaming → Full screen experience, choose AnyFSE as the home app and turn on entering it at startup.
 
-Xbox mode needs Windows 11 24H2 or newer. Both tools are separate projects with their own licenses and are not bundled with Lumen. If "Choose home app" is missing, update Xbox and Xbox Game Bar in the Microsoft Store.
+[OmniConsole](https://8bit2qubit.github.io/omniconsole-site/download/) does the same job if you already use it: install it, add Lumen as a custom platform with the same path and argument, and choose OmniConsole in step 5 instead.
+
+**Lumen never installs either bridge for you.** Between them they want administrator rights, a certificate in Trusted People and Windows' developer mode, and that is not a games launcher's business. Lumen finds them, links them, and hands you the exact path and argument to paste.
+
+Xbox mode needs Windows 11 24H2 or newer. AnyFSE, OmniConsole and the Xbox Full Screen Experience Tool are separate projects with their own licenses and none of them is bundled with Lumen. If "Choose home app" is missing, update Xbox and Xbox Game Bar in the Microsoft Store.
 
 ## Game info
 

@@ -399,7 +399,7 @@ export interface LumenApi {
   onDownloads(cb: (d: Download[]) => void): () => void;
   couchStatus(): Promise<CouchStatus>;
   couchSetup(on: boolean): Promise<CouchStatus>;
-  couchOpen(what: 'omniconsole' | 'fseTool' | 'openFseTool' | 'gaming' | 'copyPath' | 'copyArg' | 'copyLink'): Promise<void>;
+  couchOpen(what: 'anyfse' | 'openAnyFse' | 'omniconsole' | 'fseTool' | 'openFseTool' | 'gaming' | 'copyPath' | 'copyArg' | 'copyLink'): Promise<void>;
   quit(): Promise<void>;
   onLibraryChanged(cb: (state: LibraryState) => void): () => void;
   onToggleBigScreen(cb: () => void): () => void;
@@ -414,6 +414,9 @@ export interface CouchStatus {
   linkRegistered: boolean;
   /** null when it can't be checked (not Windows). */
   omniConsole: boolean | null;
+  /** AnyFSE is installed: the bridge that can take Lumen as a custom executable. */
+  anyFse: boolean | null;
+  anyFseCanOpen: boolean;
   windowsBuild: number;
   windowsRevision: number;
   /** Xbox Full Screen Experience Tool is installed (it unlocks 'Choose home app' on normal PCs). */
