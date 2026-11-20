@@ -102,6 +102,8 @@ The Lumen mark is a power button: one ring with a gap at the top and one stem th
 
 ![The intro, frame by frame](logo-animation.png)
 
+The intro and outro marks are sized to the screen, not to a number of pixels: about a third of the shorter side, which is a badge on a monitor and still a badge on a 65 inch television. The word under them grows with them.
+
 The intro is one line being drawn. It arrives hairline thin, travels round the circle, the stem drops through the gap, and only once the shape is closed does the whole mark thicken to its real weight. It takes about 1.6 seconds, and the word LUMEN starts appearing at the moment the thickening starts. Leaving Big Screen plays the same thing backwards: the mark thins, the stem lifts out and the ring unwinds. Both come with a chime, and both are off under Settings → Big Screen → Intro and outro animation. The system setting for reduced motion skips the drawing entirely and shows the finished mark.
 
 ### Picking a mark

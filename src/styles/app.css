@@ -684,10 +684,13 @@ html[data-shape="square"] { --ar: 1 / 1; --arh: 1; --sw: 1.2; }
   .logo-mark, .logo-mark * { animation: none !important; }
 }
 .bs-boot { gap: 18px !important; animation: bootout 3s var(--ease) forwards !important; justify-items: center; overflow: hidden; }
-.bs-boot .logo-mark { filter: drop-shadow(0 0 26px var(--glow)); position: relative; }
-.bs-boot b { display: flex; font-size: 2.6rem !important; letter-spacing: .34em !important; text-indent: .34em !important; animation: none !important; position: relative; margin-top: 10px; }
+/* The intro mark is sized to the screen, not to a number of pixels: 150px is a badge on a
+   monitor and a speck on a television, and this screen is meant for a television. The glow grows
+   with it for the same reason. */
+.bs-boot .logo-mark { width: min(36vmin, 460px); height: auto; filter: drop-shadow(0 0 5vmin var(--glow)); position: relative; }
+.bs-boot b { display: flex; font-size: clamp(2.6rem, 6.5vmin, 5.4rem) !important; letter-spacing: .34em !important; text-indent: .34em !important; animation: none !important; position: relative; margin-top: 10px; }
 .bs-boot b i { font-style: normal; opacity: 0; animation: letterin .6s var(--ease) forwards; }
-.bs-boot small { position: relative; color: var(--muted); font-size: 1rem; letter-spacing: .12em; opacity: 0; animation: bootin .7s var(--ease) 1.7s forwards; }
+.bs-boot small { position: relative; color: var(--muted); font-size: clamp(1rem, 2.1vmin, 1.8rem); letter-spacing: .12em; opacity: 0; animation: bootin .7s var(--ease) 1.7s forwards; }
 .bs-boot-glow { position: absolute; width: 70vmin; height: 70vmin; border-radius: 50%; background: radial-gradient(circle, var(--glow), transparent 62%); opacity: 0; animation: glowin 2.4s ease-out .5s forwards; }
 @keyframes letterin { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
 @keyframes glowin { 0% { opacity: 0; transform: scale(.4); } 45% { opacity: .55; } 100% { opacity: .22; transform: scale(1); } }
@@ -824,9 +827,9 @@ html[data-canim="tilt"] .card.focused .art { animation: card-tilt calc(4.5s * va
 .bs-outro b.gg { font-size: clamp(5rem, 13vw, 11rem) !important; letter-spacing: .08em !important; text-indent: .08em !important; line-height: 1; margin-top: 4px; color: var(--accent); text-shadow: 0 0 50px var(--glow); }
 .bs-outro b.gg i { opacity: 0; animation: ggin .55s cubic-bezier(.2,1.5,.4,1) forwards, letterout .45s var(--ease) 1.75s forwards; }
 .bs-outro b.gg i:nth-child(2) { animation-delay: .14s, 1.82s; }
-.bs-outro small { font-size: 1.15rem !important; animation: bootin .5s var(--ease) .45s forwards, fadeaway .45s ease-in 1.75s forwards !important; }
+.bs-outro small { font-size: clamp(1.15rem, 2.3vmin, 2rem) !important; animation: bootin .5s var(--ease) .45s forwards, fadeaway .45s ease-in 1.75s forwards !important; }
 .bs-outro .bs-boot-glow { animation-duration: 2.2s !important; }
-.bs-outro .logo-mark { width: 84px; height: 84px; }
+.bs-outro .logo-mark { width: min(30vmin, 380px) !important; height: auto; }
 @keyframes ggin { from { opacity: 0; transform: scale(.4) translateY(20px); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
 
 /* Controller focus inside a window */
