@@ -53,7 +53,7 @@
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
-      "build/icon.png",
+      "build/icon*.png",
       "package.json"
     ],
     "win": {

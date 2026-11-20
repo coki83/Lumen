@@ -111,16 +111,18 @@ Settings → Appearance → Lumen mark holds five of them, and every tile in the
 | | |
 |---|---|
 | **Power** | A power button. The line draws, then thickens. The one Lumen starts with. |
-| **Orbit** | A spiral that comes back round past its own tail, around a lit core. |
+| **Orbit** | One tilted orbit with a moon riding it, around the light. The whole orbit swings round into place as the path draws. |
 | **Pulse** | One closed ring and the light inside it. |
 | **Reactor** | Three arcs of one circle, arriving one after the other. |
-| **Spark** | Lumen's first mark: a ring of light with a spark breaking out of it. |
+| **Spark** | Lumen's first ring, with its light brought into the middle. The break in the ring is what is left of the spark. |
 
 Every mark but Power has a **core**, and the core is a power light: it comes on green as Lumen starts and turns red as it goes off, flaring once on the way in and once on the way out. It is the only part of the mark that ignores your accent colour, because there the colour is the message.
 
 ![Every mark, finished and part way through](logo-styles.png)
 
-Logo files (SVG and PNG: mark, app icon, wordmark in dark and light) are in the `logo` folder next to this README. The installed program's icon is the Power mark whichever one you pick, because Windows takes the icon from the exe when it is built and cannot be told to change it later.
+The mark you pick also becomes Lumen's **window and taskbar icon**, straight away, with no restart. The icon on the desktop shortcut and in Explorer stays the Power mark whatever you choose: Windows reads that one out of the exe, which is written when Lumen is built, and nothing running can change it afterwards.
+
+Logo files (SVG and PNG: mark, app icon, wordmark in dark and light) are in the `logo` folder next to this README.
 
 ## Animations
 

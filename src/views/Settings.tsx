@@ -799,10 +799,10 @@ const VIBES_STYLES = [
 
 const LOGO_STYLES: { id: LogoStyle; name: string; hint: string }[] = [
   { id: 'power', name: 'Power', hint: 'A power button. The line draws, then thickens.' },
-  { id: 'orbit', name: 'Orbit', hint: 'A spiral past its own tail, around a lit core.' },
+  { id: 'orbit', name: 'Orbit', hint: 'A tilted orbit with a moon, swinging into place.' },
   { id: 'pulse', name: 'Pulse', hint: 'One closed ring and the light inside it.' },
   { id: 'reactor', name: 'Reactor', hint: 'Three arcs that arrive one after the other.' },
-  { id: 'spark', name: 'Spark', hint: "Lumen's first mark: a ring with a spark." }
+  { id: 'spark', name: 'Spark', hint: "Lumen's first ring, its light brought to the middle." }
 ];
 
 /**

@@ -1,7 +1,7 @@
 import './net'; // gives every fetch a deadline; must come before anything that uses one
 import { app, BrowserWindow, dialog, globalShortcut, ipcMain, net, powerMonitor, protocol, session, shell } from 'electron';
 import { spawn } from 'node:child_process';
-import { promises as fs } from 'node:fs';
+import { existsSync, promises as fs } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { randomUUID } from 'node:crypto';
@@ -54,6 +54,18 @@ function goBig() {
   win.webContents.executeJavaScript("location.hash = 'bigscreen'").catch(() => undefined);
 }
 
+/**
+ * The icon file for a mark. The window and the taskbar can be told to change icon while Lumen is
+ * running, so they follow whichever mark is picked. The icon on the shortcut and in Explorer is a
+ * different thing: Windows reads that out of the exe, which is written when the app is built, so
+ * it stays the Power mark whatever is chosen here.
+ */
+function markIcon(style?: string): string {
+  const dir = path.join(__dirname, '..', '..', 'build');
+  const file = path.join(dir, `icon-${style}.png`);
+  return style && /^[a-z]+$/.test(style) && existsSync(file) ? file : path.join(dir, 'icon.png');
+}
+
 async function createWindow() {
   const settings = await store.getSettings();
   const big = settings.startInBigScreen || wantsBig(process.argv);
@@ -64,7 +76,7 @@ async function createWindow() {
     minHeight: 600,
     backgroundColor: '#0d0b10',
     title: 'Lumen',
-    icon: path.join(__dirname, '..', '..', 'build', 'icon.png'),
+    icon: markIcon(settings.logoStyle),
     autoHideMenuBar: true,
     fullscreen: big,
     webPreferences: {
@@ -447,6 +459,7 @@ function registerIpc() {
   ipcMain.handle('settings:save', async (_e, patch: Partial<Settings>) => {
     const s = await store.saveSettings(patch);
     if ('launchOnStartup' in patch || 'startInBigScreen' in patch) app.setLoginItemSettings({ openAtLogin: s.launchOnStartup, args: s.launchOnStartup && s.startInBigScreen ? [BIG_ARG] : [] });
+    if ('logoStyle' in patch) win?.setIcon(markIcon(s.logoStyle));
     return s;
   });
 

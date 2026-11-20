@@ -92,14 +92,15 @@ export function Logo({ size = 26, animate, out, style }: { size?: number; animat
       </>}
 
       {kind === 'orbit' && <>
-        {/* A real spiral, sampled from r = 19 to r = 24 over 340 degrees, so the line comes back
-            round on a wider radius than it left on and the two ends pass each other instead of
-            meeting. Plotted rather than drawn with arcs, because two arcs of different radii
-            cannot share a centre and the shape drifts off the middle. */}
-        <path className="logo-ring" d="M42.07 15.89 L40.95 15.17 L39.78 14.54 L38.56 13.98 L37.30 13.51 L36.01 13.13 L34.69 12.84 L33.35 12.64 L32.00 12.53 L30.64 12.52 L29.27 12.60 L27.92 12.78 L26.57 13.06 L25.24 13.43 L23.94 13.89 L22.67 14.44 L21.43 15.09 L20.24 15.82 L19.11 16.63 L18.03 17.53 L17.01 18.50 L16.05 19.54 L15.18 20.65 L14.37 21.82 L13.65 23.05 L13.02 24.33 L12.48 25.66 L12.02 27.02 L11.67 28.41 L11.41 29.84 L11.25 31.28 L11.19 32.73 L11.23 34.18 L11.38 35.64 L11.62 37.08 L11.97 38.51 L12.42 39.91 L12.97 41.28 L13.61 42.62 L14.35 43.91 L15.17 45.15 L16.09 46.33 L17.09 47.44 L18.16 48.49 L19.31 49.47 L20.53 50.36 L21.81 51.17 L23.15 51.88 L24.54 52.51 L25.97 53.03 L27.44 53.46 L28.94 53.79 L30.46 54.01 L32.00 54.12 L33.55 54.12 L35.09 54.02 L36.64 53.81 L38.16 53.49 L39.67 53.06 L41.14 52.53 L42.58 51.89 L43.97 51.16 L45.31 50.32 L46.60 49.39 L47.81 48.38 L48.96 47.27 L50.03 46.09 L51.02 44.83 L51.92 43.50 L52.73 42.11 L53.43 40.66 L54.04 39.16 L54.55 37.62 L54.94 36.04 L55.23 34.44 L55.40 32.82 L55.46 31.18 L55.40 29.54 L55.23 27.90 L54.94 26.28 L54.55 24.67 L54.03 23.10 L53.41 21.56 L52.68 20.06 L51.85 18.61 L50.91 17.22"
-              pathLength={100} strokeDasharray="100 100" strokeWidth={7} />
-        <circle className="logo-disc" cx="32" cy="32" r="10" fill="var(--accent)" stroke="none" />
-        <circle className="logo-core" cx="32" cy="32" r="4.5" fill="var(--logo-core)" stroke="none" />
+        {/* What the name says: one tilted orbit with a moon on it, around the light. The ellipse
+            and the moon share a group so the moon stays on its path when the group turns; the
+            core does not turn, because the thing being orbited should sit still. */}
+        <g className="logo-orbit-g">
+          <ellipse className="logo-ring" cx="32" cy="32" rx="23" ry="13" strokeWidth={4.5}
+                   transform="rotate(-28 32 32)" pathLength={100} strokeDasharray="100 100" />
+          <circle className="logo-moon" cx="52.3" cy="21.2" r="5.5" fill="var(--accent)" stroke="none" />
+        </g>
+        <circle className="logo-core" cx="32" cy="32" r="5.5" fill="var(--logo-core)" stroke="none" />
       </>}
 
       {kind === 'pulse' && <>
@@ -117,10 +118,11 @@ export function Logo({ size = 26, animate, out, style }: { size?: number; animat
       </>}
 
       {kind === 'spark' && <>
-        {/* The first mark Lumen had: a ring of light with a spark breaking out of it. */}
-        <circle className="logo-ring" cx="29" cy="35" r="20.5" strokeWidth={7} transform="rotate(-18 29 35)"
+        {/* The first mark Lumen had, with its light brought into the middle: the ring still breaks
+            open where the spark used to sit, so the gap is what is left of it. */}
+        <circle className="logo-ring" cx="32" cy="32" r="20.5" strokeWidth={7} transform="rotate(-18 32 32)"
                 pathLength={100} strokeDasharray="80 100" />
-        <circle className="logo-core" cx="46.5" cy="17.5" r="7.5" fill="var(--logo-core)" stroke="none" />
+        <circle className="logo-core" cx="32" cy="32" r="7.5" fill="var(--logo-core)" stroke="none" />
       </>}
     </svg>
   );
