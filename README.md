@@ -315,6 +315,8 @@ The numbers come from Windows itself (the logical disks it reports), including r
 Settings → Library → Tile style changes the frame around every game tile, in the desktop view and in Big Screen alike. Each choice is previewed on a real game from your library.
 
 - **Classic**: soft shadow and a gentle lift, the look Lumen starts with.
+- **DVD case**: the cover in a black keep case, with the spine band down the left, the hinge line beside it and the right corners rounded the way the real thing is.
+- **CD case**: a jewel case. The ridged hinge runs down the left, the booklet stops short of the right edge, and the disc shows its silver rim in the strip that leaves.
 - **Flat**: a quiet outline, nothing moves. Easiest on a slow PC.
 - **Framed**: the artwork sits inside a mat, like a picture in a frame.
 - **Glass**: a frosted pane with a lit top edge.
@@ -322,6 +324,8 @@ Settings → Library → Tile style changes the frame around every game tile, in
 - **Shelf**: tiles stand on a surface with a shadow pooling under them.
 - **Sticker**: a thick cut edge and a hard offset shadow.
 - **RGB**: a turning rainbow ring that marks the game you are on. The other tiles stay plain, and the selected one gets the ring plus a soft glow of the same colours just inside its edge. The whole effect stays inside the picture, and its thickness is a share of the tile, so it looks the same on a small cover in the grid and on a wide banner across a TV. The ring is its own layer, so the artwork keeps its rounded corners and the ring keeps turning whatever you choose in Settings → Appearance → Animations. Reduce motion stops it, as it stops every other animation.
+
+![The DVD and CD cases in the picker](tile-styles-cases.png)
 
 Tile style is about the frame. The animation when a tile is picked is separate, in Settings → Appearance → Animations.
 
