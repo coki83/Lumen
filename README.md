@@ -326,7 +326,7 @@ Settings → Library → Tile style changes the frame around every game tile, in
 
 - **Classic**: soft shadow and a gentle lift, the look Lumen starts with.
 - **DVD case**: the cover in a black keep case, with the spine band down the left, the hinge line beside it and the right corners rounded the way the real thing is.
-- **CD case**: a jewel case. The ridged hinge runs down the left, the booklet stops short of the right edge, and the disc shows its silver rim in the strip that leaves.
+- **CD**: a square jewel case seen front on, with the artwork printed on the disc inside it. The hub, the clear band and the clamping ring sit in the middle, the case has its four moulded corner clips and a ridge round the inside, and a diagonal gloss runs over the plastic. The disc turns in a slow loop while the tile is the one you are on, and it holds still if you have asked Windows for less motion.
 - **Flat**: a quiet outline, nothing moves. Easiest on a slow PC.
 - **Framed**: the artwork sits inside a mat, like a picture in a frame.
 - **Glass**: a frosted pane with a lit top edge.

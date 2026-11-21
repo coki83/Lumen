@@ -1015,51 +1015,68 @@ body.no-cursor, body.no-cursor * { cursor: none !important; }
 .card.cs-dvd:hover .art { transform: translateY(-.5cqw) scale(1.02); }
 .card.cs-dvd.focused .art { box-shadow: 0 0 0 .5cqw var(--accent), 0 1.6cqw 3.2cqw rgba(0,0,0,.7), 0 0 3cqw var(--glow); }
 
-/* The jewel case: a thin clear edge round the cover, the ridged hinge down the left, and the
-   disc behind it showing past the right edge. */
+/* The jewel case, straight on, with the artwork printed on the disc: the case is square, so this
+   style sets its own aspect rather than taking the tile shape, or the disc would be an ellipse. */
 .card.cs-cd .art {
-  background:
-    /* the ridged hinge down the left */
-    repeating-linear-gradient(180deg, rgb(255 255 255 / .12) 0 .5cqw, transparent .5cqw 1.6cqw) left / 3.4cqw 100% no-repeat,
-    /* the tray the disc sits in, down the right, so the strip is not a black void */
-    linear-gradient(180deg, #2a2a31, #17171c 45%, #23232a) right / 10cqw 100% no-repeat,
-    linear-gradient(90deg, #202027 0 3.4cqw, #0d0d10 3.4cqw);
-  border-radius: 1cqw;
-  box-shadow: 0 1cqw 2.4cqw rgba(0,0,0,.55), inset 0 0 0 1px rgb(255 255 255 / .16);
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 50% 42%, #1b1b20, #070708 70%);
+  border-radius: 1.4cqw;
+  box-shadow: 0 1cqw 2.4cqw rgba(0,0,0,.6), inset 0 0 0 1px rgb(255 255 255 / .18);
 }
-/* The booklet stops short of the right edge, and the disc shows in the strip that leaves. */
+/* The artwork is the disc: cropped to a circle, and the thing that turns. A circle is the same
+   shape whichever way round it is, so the clip can turn with it without any of it slipping out. */
 .card.cs-cd .art > img:not(.badge-icon), .card.cs-cd .art > .fallback, .card.cs-cd .art > .wide-shade {
-  top: 1.4cqw; left: 4.6cqw; right: 10cqw; bottom: 1.4cqw;
-  width: calc(100% - 14.6cqw); height: calc(100% - 2.8cqw);
-  border-radius: .4cqw; z-index: 2;
+  top: 4cqw; left: 4cqw; right: 4cqw; bottom: 4cqw;
+  width: calc(100% - 8cqw); height: calc(100% - 8cqw);
+  border-radius: 50%; clip-path: circle(50% at 50% 50%); object-fit: cover;
+}
+/* The turning is the style, the way the rainbow is the RGB style, so it keeps going whatever is
+   chosen under Appearance, Animations. That setting switches off the slow drift on a focused
+   tile with `animation: none` on this very element and a heavier selector, so this one has to say
+   important to be heard; reduce motion below then has to say it too. */
+.card.cs-cd.focused .art > img:not(.badge-icon), .card.cs-cd.focused .art > .fallback,
+.card.cs-cd:hover .art > img:not(.badge-icon), .card.cs-cd:hover .art > .fallback {
+  animation: discspin 9s linear infinite !important;
+}
+@keyframes discspin { to { transform: rotate(1turn); } }
+
+/* A game with no artwork falls back to its name on a coloured card. On a disc that name lands
+   across the hub, so it is moved down into the lower half, where a disc's label would be. */
+.card.cs-cd .art > .fallback { align-items: flex-end; justify-content: center; padding: 0 20% 13%; text-align: center; }
+.card.cs-cd .art > .fallback .fb-title { font-size: clamp(11px, calc(var(--card, 180px) * .072), 20px); }
+
+/* The middle of the disc: the clamping ring, the clear band and the hole. It does not turn,
+   because at this size a turning hub only makes the middle look smeared. */
+.card.cs-cd .disc-hub {
+  position: absolute; z-index: 3; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%,
+      #0b0b0d 0 6.2%,                      /* the hole */
+      #2c2c33 6.2% 7.4%,
+      #a9acb3 7.4% 8.2%,                   /* the clear plastic band catching the light */
+      #15151a 8.2% 15.5%,                  /* the clamping ring */
+      #2a2a31 15.5% 16.4%,
+      #0000 16.6%);
+}
+/* The tray: the four corner clips and the ridge round the inside of the lid. */
+.card.cs-cd .disc-tray {
+  position: absolute; z-index: 4; inset: 0; pointer-events: none; border-radius: inherit;
+  /* The moulded clips: a rounded notch in each corner of the tray, not a filled triangle. */
+  --clip: radial-gradient(circle at 50% 50%, #0000 0 34%, rgb(255 255 255 / .2) 34% 48%, #0000 50%);
+  background:
+    var(--clip) left 3.4cqw top 3.4cqw / 12cqw 12cqw no-repeat,
+    var(--clip) right 3.4cqw top 3.4cqw / 12cqw 12cqw no-repeat,
+    var(--clip) left 3.4cqw bottom 3.4cqw / 12cqw 12cqw no-repeat,
+    var(--clip) right 3.4cqw bottom 3.4cqw / 12cqw 12cqw no-repeat;
+  box-shadow: inset 0 0 0 2.6cqw rgb(255 255 255 / .05), inset 0 0 0 2.7cqw rgb(255 255 255 / .14);
 }
 .card.cs-cd:hover .art { transform: translateY(-.5cqw) scale(1.02); }
 .card.cs-cd.focused .art { box-shadow: 0 0 0 .5cqw var(--accent), 0 1.6cqw 3.2cqw rgba(0,0,0,.7), 0 0 3cqw var(--glow); }
+/* A turning disc is exactly the sort of thing reduce motion is for. */
+html[data-motion="reduce"] .card.cs-cd .art > img:not(.badge-icon),
+html[data-motion="reduce"] .card.cs-cd .art > .fallback { animation: none !important; }
 
-/* Silver, with the rainbow a disc throws and the hub and hole in the middle. Mostly off the right
-   edge, so what shows is the sliver of disc a case lets you see. */
-.card.cs-cd .cd-disc {
-  /* As tall as the case: a disc this size shows only a sliver of its left arc in the strip, which
-     is exactly what a jewel case lets you see of the disc behind the booklet. */
-  position: absolute; z-index: 1; top: 50%; right: -118cqw; width: 150cqw; height: 150cqw;
-  transform: translateY(-50%); border-radius: 50%; pointer-events: none;
-  background:
-    /* a bright rim, so the arc in the strip reads as the edge of a disc and not as a smudge */
-    radial-gradient(circle at 50% 50%, #0000 0 48.2%, #e8eaee 48.2% 49.4%, #0000 49.6%),
-    conic-gradient(from 200deg, rgb(159 166 255 / .38), rgb(255 217 160 / .38), rgb(168 255 209 / .38), rgb(255 168 232 / .38), rgb(159 166 255 / .38)),
-    radial-gradient(circle at 50% 50%, #9ca1ab 0 49.5%, #0000 50%);
-  box-shadow: inset 0 0 3cqw rgb(0 0 0 / .4), -.4cqw 0 1.6cqw rgb(0 0 0 / .55);
-}
-.card.cs-cd.focused .cd-disc { right: -114cqw; }
-
-/* One sheet of plastic over the whole case: a soft diagonal highlight, nothing more. It sits over
-   the artwork but under the badges, so it never dims a source badge or the download overlay. */
-.case-gloss {
-  position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit;
-  background: linear-gradient(118deg, rgb(255 255 255 / .26) 0 9%, rgb(255 255 255 / .07) 20%, transparent 34%,
-                               transparent 70%, rgb(255 255 255 / .09) 84%, rgb(255 255 255 / .2) 100%);
-}
-.card.cs-dvd .cd-disc, .card.cs-dvd .case-gloss { border-radius: 1.2cqw 3.4cqw 3.4cqw 1.2cqw; }
+.card.cs-dvd .case-gloss { border-radius: 1.2cqw 3.4cqw 3.4cqw 1.2cqw; }
 
 .card.cs-sticker .art { box-shadow: 0 0 0 3px var(--sticker-edge, #fff), 6px 6px 0 rgba(0,0,0,.55); }
 .card.cs-sticker:hover .art { transform: translate(-2px, -2px); box-shadow: 0 0 0 3px var(--sticker-edge, #fff), 9px 9px 0 rgba(0,0,0,.6); }

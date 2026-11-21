@@ -893,7 +893,7 @@ const CARD_HINT: Record<string, string> = { full: 'Pop, light sweep, drifting ar
 const CARD_STYLES = [
   { id: 'classic', name: 'Classic', hint: 'Soft shadow, gentle lift' },
   { id: 'dvd', name: 'DVD case', hint: 'The cover in a keep case, spine and all' },
-  { id: 'cd', name: 'CD case', hint: 'A jewel case with the disc behind it' },
+  { id: 'cd', name: 'CD', hint: 'The artwork on a disc in a jewel case. It turns while selected.' },
   { id: 'flat', name: 'Flat', hint: 'A quiet outline, nothing moves' },
   { id: 'frame', name: 'Framed', hint: 'The artwork sits in a mat' },
   { id: 'glass', name: 'Glass', hint: 'A frosted pane with a lit edge' },

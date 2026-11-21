@@ -757,12 +757,12 @@ function WideTile({ g, focused, badge, onClick }: { g: Game; focused: boolean; b
       <div className="art">
         {settings?.cardStyle === 'rgb' && <i className="rgb-ring" aria-hidden />}
         {settings?.cardStyle === 'rgb' && <i className="rgb-halo" aria-hidden />}
-        {settings?.cardStyle === 'cd' && <i className="cd-disc" aria-hidden />}
         {img ? <img src={img} alt="" loading="lazy" decoding="async" draggable={false} className={`in ${pick.cover ? 'blurred' : ''}`} onError={() => setIdx((i) => i + 1)} /> : <FallbackArt g={g} wide bare />}
         <div className="wide-shade" />
         {pick?.cover && <img className="wide-cover" src={img} alt="" draggable={false} />}
         {a.logo ? <img className="wide-logo" src={a.logo} alt="" draggable={false} onError={(e) => (e.currentTarget.style.display = 'none')} /> : null}
         <span className={`wide-title ${a.logo ? 'has-logo' : ''}`}>{titleOf(g)}</span>
+        {settings?.cardStyle === 'cd' && <><i className="disc-hub" aria-hidden /><i className="disc-tray" aria-hidden /></>}
         {(settings?.cardStyle === 'dvd' || settings?.cardStyle === 'cd') && <i className="case-gloss" aria-hidden />}
         {badge && <SourceBadge source={g.source} />}
         <PadBadge g={g} />

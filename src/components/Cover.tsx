@@ -89,9 +89,7 @@ export function Cover({ g, showTitle, showBadge, focused, style, onClick, onDoub
       <div className="art">
         {cardStyle === 'rgb' && <i className="rgb-ring" aria-hidden />}
         {cardStyle === 'rgb' && <i className="rgb-halo" aria-hidden />}
-        {/* The disc goes before the artwork so it reads as sitting behind the cover, and inside
-            .art so it is clipped by the tile rather than floating past its edge. */}
-        {cardStyle === 'cd' && <i className="cd-disc" aria-hidden />}
+        {/* The jewel case is drawn over the artwork, not under it: the artwork is the disc. */}
         {src ? (
           <>
             {/* title card shows while the cover loads, or if it never does */}
@@ -102,6 +100,7 @@ export function Cover({ g, showTitle, showBadge, focused, style, onClick, onDoub
         ) : (
           <FallbackArt g={g} />
         )}
+        {cardStyle === 'cd' && <><i className="disc-hub" aria-hidden /><i className="disc-tray" aria-hidden /></>}
         {(cardStyle === 'dvd' || cardStyle === 'cd') && <i className="case-gloss" aria-hidden />}
         {showBadge && <SourceBadge source={g.source} />}
         <PadBadge g={g} />
