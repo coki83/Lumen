@@ -4,7 +4,7 @@ import { APP_SHORTCUTS, DEFAULT_KEYS, DEFAULT_PAD, DEFAULT_SHORTCUTS, PAD_ACTION
 import { WALLPAPERS, Wallpaper } from '../components/Wallpaper';
 import { capturePadButton } from '../lib/gamepad';
 import { playSound } from '../lib/sound';
-import type { AccountId, AccountInfo, ArtSourceId, CouchStatus, LogoStyle, Settings, SourceId } from '../../shared/types';
+import type { AccountId, AccountInfo, ArtSourceId, CouchStatus, LogoStyle, Settings, SourceId, VoiceState } from '../../shared/types';
 import { Icon, Logo } from '../components/Icon';
 import { Drives, driveCounts } from '../components/Drives';
 import { Temps } from '../components/Temps';
@@ -12,6 +12,7 @@ import { SAVERS } from '../components/Screensaver';
 import { Cover, SourceBadge, heroOf } from '../components/Cover';
 import { artOf } from '../lib/library';
 import { Modal, Segmented, Slider, Toggle } from '../components/ui';
+import { VOICE_COMMANDS } from '../../shared/voice';
 import { api, isDesktop } from '../lib/api';
 import { LANGS, coverage, t as tx } from '../lib/i18n';
 import { SOURCES, SOURCE_ORDER } from '../lib/sources';
@@ -496,6 +497,46 @@ function ControlsTab() {
       <div className="row-btns">
         <button className="btn" onClick={() => { set({ keyBindings: { ...DEFAULT_KEYS }, padBindings: { ...DEFAULT_PAD }, shortcuts: { ...DEFAULT_SHORTCUTS } }); notify('Controls reset'); }}>Reset all to defaults</button>
       </div>
+      <VoiceSettings />
+    </>
+  );
+}
+
+/** Voice control: the switch, how it is doing, and everything you can say. */
+function VoiceSettings() {
+  const { settings: s, saveSettings: set } = useLumen();
+  const [state, setState] = useState<VoiceState>({ supported: api.platform === 'win32', listening: false, error: null });
+  useEffect(() => { api.voiceState().then(setState); return api.onVoiceState(setState); }, []);
+
+  return (
+    <>
+      <h4>Voice</h4>
+      <p className="hint">
+        Say <b>“OK Lumen”</b> and then a command. Lumen uses the speech recogniser that is already part of
+        Windows, so nothing is installed and nothing leaves your PC: no recording is kept, and the microphone
+        is only open while this is switched on. It listens for the short list below and for nothing else, which
+        is also why it hears them accurately without any training.
+      </p>
+      <Toggle label="Listen for “OK Lumen”" hint="Windows only. The microphone is used only while this is on." checked={!!s.voice} onChange={(v) => set({ voice: v })} />
+      <Toggle label="Start games by name" hint="“OK Lumen, play Hollow Orbit”. Your game names are added to what it listens for." checked={s.voiceLaunch !== false} onChange={(v) => set({ voiceLaunch: v })} />
+      <Toggle label="Show what was heard" hint="A small pill in the corner while Lumen is listening." checked={s.voiceFeedback !== false} onChange={(v) => set({ voiceFeedback: v })} />
+      {!state.supported
+        ? <div className="voice-state">Voice control needs Windows.</div>
+        : state.error
+          ? <div className="voice-state">{state.error}</div>
+          : <div className={`voice-state ${state.listening ? 'on' : ''}`}>{state.listening ? 'Listening for “OK Lumen”' : s.voice ? 'Starting…' : 'Not listening'}</div>}
+      <ul className="voice-list">
+        {VOICE_COMMANDS.map((c) => (
+          <li key={c.id}><b>“OK Lumen, {c.phrases[0]}”</b><span>{c.what}</span></li>
+        ))}
+        {s.voiceLaunch !== false && <li><b>“OK Lumen, play <i>a game</i>”</b><span>Start that game</span></li>}
+      </ul>
+      <p className="hint">
+        Nothing happens without the wake words, so the room can talk freely. The power menu opens on a word but
+        nothing is ever shut down by one: that still needs a button. If it is not hearing you, check that Windows
+        has a speech recogniser set up under Time &amp; language → Speech, and that the microphone is allowed under
+        Privacy → Microphone.
+      </p>
     </>
   );
 }
@@ -893,15 +934,13 @@ const CARD_HINT: Record<string, string> = { full: 'Pop, light sweep, drifting ar
 const CARD_STYLES = [
   { id: 'classic', name: 'Classic', hint: 'Soft shadow, gentle lift' },
   { id: 'dvd', name: 'DVD case', hint: 'The cover in a keep case. The disc slides out and turns while selected.' },
-  { id: 'cd', name: 'CD', hint: 'The artwork on a disc in a jewel case. It turns while selected.' },
   { id: 'flat', name: 'Flat', hint: 'A quiet outline, nothing moves' },
   { id: 'frame', name: 'Framed', hint: 'The artwork sits in a mat' },
   { id: 'glass', name: 'Glass', hint: 'A frosted pane with a lit edge' },
   { id: 'neon', name: 'Neon', hint: 'Ringed in your accent colour' },
   { id: 'rgb', name: 'RGB', hint: 'A turning rainbow ring on the game you are on' },
   { id: 'shelf', name: 'Shelf', hint: 'Standing on a surface, with a shadow under it' },
-  { id: 'sticker', name: 'Sticker', hint: 'A cut edge and a hard shadow' },
-  { id: 'tape', name: 'Cassette', hint: 'The artwork as the label on a tape. The reels turn while selected.' }
+  { id: 'sticker', name: 'Sticker', hint: 'A cut edge and a hard shadow' }
 ] as const;
 
 /** The look of a game tile, shown on real artwork from the library so the choice is honest. */

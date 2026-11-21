@@ -23,6 +23,7 @@ import { launcherIcons } from './icons';
 import { downloadsPageName, openDownloadsPage, openLauncherLink } from './handoff';
 import { weather } from './weather';
 import { couchOpen, couchSetup, couchStatus, registerLink, wantsBig, BIG_ARG } from './couch';
+import { onVoice, startVoice, stopVoice, voiceState } from './voice';
 import { autoArt, listArt, searchArt } from './art';
 import { autoFreeArt, freeArt, lookup, lookupDetails, steamLocalArt } from './scraper';
 import { scanAll } from './scanners';
@@ -537,6 +538,14 @@ function registerIpc() {
   ipcMain.handle('couch:status', () => couchStatus());
   ipcMain.handle('couch:setup', (_e, on: boolean) => couchSetup(!!on));
   ipcMain.handle('couch:open', (_e, what) => couchOpen(what));
+  // Voice control. The renderer owns the game list and what a command means, so main does the
+  // listening and passes the words straight on.
+  ipcMain.handle('voice:start', async (_e, titles: string[], allowLaunch: boolean) => {
+    const { voicePhrases, VOICE_WAKE } = await import('../shared/voice');
+    return startVoice(voicePhrases(Array.isArray(titles) ? titles : [], allowLaunch !== false), VOICE_WAKE);
+  });
+  ipcMain.handle('voice:stop', async () => { await stopVoice(); return voiceState(); });
+  ipcMain.handle('voice:state', () => voiceState());
   ipcMain.handle('app:quit', () => app.quit());
 }
 
@@ -550,6 +559,11 @@ app.whenReady().then(async () => {
   });
   registerIpc();
   registerLink();
+  // Heard words and the listener's own state both go straight to the window.
+  onVoice(
+    (said) => win?.webContents.send('voice:heard', said),
+    (st) => win?.webContents.send('voice:state', st)
+  );
   await createWindow();
   setGlobal((await store.getSettings()).globalBigScreenKey);
   // Tell the UI when the PC wakes so music and wallpapers can resume cleanly.
@@ -616,7 +630,7 @@ function setGlobal(accel: string): boolean {
   }
 }
 
-app.on('will-quit', () => globalShortcut.unregisterAll());
+app.on('will-quit', () => { globalShortcut.unregisterAll(); void stopVoice(); });
 
 // The in-app browser (SteamDB, store pages): keep pop-up links inside the same tab, and never let pages
 // in it run with Lumen's own privileges.

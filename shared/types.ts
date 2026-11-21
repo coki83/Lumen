@@ -73,7 +73,7 @@ export interface Game extends ScannedGame {
 export type DesktopLayout = 'grid' | 'list' | 'shelves';
 export type SortKey = 'title' | 'recent' | 'added' | 'playtime' | 'source';
 
-export type CardStyle = 'classic' | 'cd' | 'dvd' | 'flat' | 'frame' | 'glass' | 'neon' | 'rgb' | 'shelf' | 'sticker' | 'tape';
+export type CardStyle = 'classic' | 'dvd' | 'flat' | 'frame' | 'glass' | 'neon' | 'rgb' | 'shelf' | 'sticker';
 /** The look of the vibes card on Home. 'hidden' leaves it out of both views. */
 /** Which mark Lumen draws for itself. All of them animate; the ones with a core light it. */
 export type LogoStyle = 'power' | 'orbit' | 'pulse' | 'reactor' | 'spark';
@@ -122,6 +122,12 @@ export interface Settings {
   /** Keep Lumen on screen while a launcher installs: its main window is pushed down and Lumen
    *  comes back to the front as soon as the download starts. Windows only. */
   stayInLumen: boolean;
+  /** Listen for "OK Lumen" and the spoken commands. Windows only, and off until asked for. */
+  voice: boolean;
+  /** Let "play <game>" start a game by name. */
+  voiceLaunch: boolean;
+  /** Show what was heard in the corner for a moment. */
+  voiceFeedback: boolean;
   /** Controller works as a mouse while a launcher window is in front (Windows only). */
   padCursor: boolean;
   /** Minutes of doing nothing before the screensaver starts. 0 turns it off. */
@@ -345,6 +351,15 @@ export interface ArtCandidate {
   height: number;
 }
 
+export interface VoiceState {
+  /** Voice control can run on this PC at all: Windows only. */
+  supported: boolean;
+  /** The recogniser is up and waiting for the wake words. */
+  listening: boolean;
+  /** Why it is not listening, in words worth showing. */
+  error: string | null;
+}
+
 export interface LumenApi {
   platform: string;
   getLibrary(): Promise<LibraryState>;
@@ -400,6 +415,12 @@ export interface LumenApi {
   couchStatus(): Promise<CouchStatus>;
   couchSetup(on: boolean): Promise<CouchStatus>;
   couchOpen(what: 'anyfse' | 'openAnyFse' | 'omniconsole' | 'fseTool' | 'openFseTool' | 'gaming' | 'copyPath' | 'copyArg' | 'copyLink'): Promise<void>;
+  voiceStart(titles: string[], allowLaunch: boolean): Promise<VoiceState>;
+  voiceStop(): Promise<VoiceState>;
+  voiceState(): Promise<VoiceState>;
+  /** Fires with what was heard, the wake words already taken off. */
+  onVoice(cb: (said: string) => void): () => void;
+  onVoiceState(cb: (s: VoiceState) => void): () => void;
   quit(): Promise<void>;
   onLibraryChanged(cb: (state: LibraryState) => void): () => void;
   onToggleBigScreen(cb: () => void): () => void;

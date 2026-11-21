@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import type { Download, LibraryState, LumenApi } from '../shared/types';
+import type { Download, LibraryState, LumenApi, VoiceState } from '../shared/types';
 
 const api: LumenApi = {
   platform: process.platform,
@@ -56,6 +56,19 @@ const api: LumenApi = {
   couchStatus: () => ipcRenderer.invoke('couch:status'),
   couchSetup: (on) => ipcRenderer.invoke('couch:setup', on),
   couchOpen: (what) => ipcRenderer.invoke('couch:open', what),
+  voiceStart: (titles, allowLaunch) => ipcRenderer.invoke('voice:start', titles, allowLaunch),
+  voiceStop: () => ipcRenderer.invoke('voice:stop'),
+  voiceState: () => ipcRenderer.invoke('voice:state'),
+  onVoice: (cb) => {
+    const h = (_e: unknown, said: string) => cb(said);
+    ipcRenderer.on('voice:heard', h);
+    return () => ipcRenderer.removeListener('voice:heard', h);
+  },
+  onVoiceState: (cb) => {
+    const h = (_e: unknown, s: VoiceState) => cb(s);
+    ipcRenderer.on('voice:state', h);
+    return () => ipcRenderer.removeListener('voice:state', h);
+  },
   quit: () => ipcRenderer.invoke('app:quit'),
   onLibraryChanged: (cb) => {
     const h = (_e: unknown, s: LibraryState) => cb(s);

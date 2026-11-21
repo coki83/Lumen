@@ -9,7 +9,8 @@ import { sendCommand } from './lib/commands';
 import { setInputBindings } from './lib/gamepad';
 import { configureSounds, playMusic, playSound, stopMusic } from './lib/sound';
 import { useLumen } from './lib/store';
-import { pickLang, setLang } from './lib/i18n';
+import { useVoice } from './lib/voice';
+import { pickLang, setLang, t } from './lib/i18n';
 import { FONTS, THEMES, hexToGlow, inkFor } from './lib/themes';
 import { BigScreen } from './views/BigScreen';
 import { Desktop } from './views/Desktop';
@@ -43,7 +44,7 @@ function useTheme() {
 }
 
 export function App() {
-  const { toast, settings: s, saveSettings } = useLumen();
+  const { toast, settings: s, saveSettings, library, launch } = useLumen();
   useTheme();
   const [big, setBig] = useState(() => location.hash === '#bigscreen');
   // "On screen" means visible and in front: a game covering Lumen in Big Screen is not hidden,
@@ -84,6 +85,24 @@ export function App() {
 
   useEffect(() => api.onToggleBigScreen(toggleBig), []);
 
+  // Voice control. Off until it is asked for, and it listens for the wake words only.
+  const voice = useVoice(!!s.voice, s.voiceLaunch !== false, library.games, {
+    big,
+    enterBig,
+    exitBig,
+    setMusic: (on) => saveSettings({ music: on ? (s.music === 'off' ? 'lumen' : s.music) : 'off' }),
+    launch: (g) => { void launch(g); },
+    stopVoice: () => saveSettings({ voice: false })
+  });
+  // The pill shows what was heard, then clears itself.
+  const [echoOn, setEchoOn] = useState(false);
+  useEffect(() => {
+    if (!voice.echo) return;
+    setEchoOn(true);
+    const t = setTimeout(() => setEchoOn(false), 2600);
+    return () => clearTimeout(t);
+  }, [voice.echo?.at]);
+
   // Shortcuts from Settings → Controls.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -122,6 +141,14 @@ export function App() {
     <>
       {big ? <BigScreen key={code} onExit={exitBig} /> : <Desktop key={code} onBigScreen={enterBig} />}
       {toast && <div className="toast">{toast}</div>}
+      {s.voice && s.voiceFeedback !== false && (voice.state.listening || echoOn) && (
+        <div className={`voice-pill ${echoOn ? 'said' : ''}`}>
+          <i className="voice-dot" aria-hidden />
+          {echoOn && voice.echo
+            ? <span className="voice-said">{voice.echo.did ?? `"${voice.echo.said}" — not a command`}</span>
+            : <span className="voice-said">{t('Listening')}</span>}
+        </div>
+      )}
       {showSaver && <Screensaver scene={s.screensaverScene ?? 'shuffle'} clock={s.screensaverClock !== false} info={s.screensaverInfo !== false} weatherOn={!!s.weatherOn} onWake={() => suppressInput(700)} />}
     </>
   );

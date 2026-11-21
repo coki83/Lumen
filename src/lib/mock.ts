@@ -19,6 +19,9 @@ const DEFAULTS: Settings = {
   globalBigScreenKey: '',
   confirmPower: true,
   scanOnStart: true,
+  voice: false,
+  voiceLaunch: true,
+  voiceFeedback: true,
   stayInLumen: true,
   padBadges: true,
   padCursor: true,
@@ -76,6 +79,8 @@ function makeGames(): Game[] {
     }
   }));
 }
+
+const fakeVoice = typeof location !== 'undefined' && new URLSearchParams(location.search).has('voice');
 
 export function createMockApi(): LumenApi {
   const accts: AccountInfo[] = (['steam', 'epic', 'gog', 'xbox', 'battlenet', 'amazon', 'ea', 'ubisoft'] as const).map((id) => ({ id, signedIn: false }));
@@ -290,6 +295,23 @@ export function createMockApi(): LumenApi {
     couchStatus: async () => ({ enabled: !!settings.couchMode, exe: 'C:\\Games\\Lumen\\Lumen.exe', arg: '--bigscreen', link: 'lumen://bigscreen', linkRegistered: !!settings.couchMode, omniConsole: false, anyFse: false, anyFseCanOpen: false, windowsBuild: 26100, windowsRevision: 8328, fseTool: false, fseToolCanOpen: false, fseCapable: true }),
     couchSetup: async (on) => { settings = { ...settings, couchMode: on, startInBigScreen: on, launchOnStartup: on }; return { enabled: on, exe: 'C:\\Games\\Lumen\\Lumen.exe', arg: '--bigscreen', link: 'lumen://bigscreen', linkRegistered: on, omniConsole: false, anyFse: false, anyFseCanOpen: false, windowsBuild: 26100, windowsRevision: 8328, fseTool: false, fseToolCanOpen: false, fseCapable: true }; },
     couchOpen: async () => undefined,
+    // The browser has no recogniser, so voice reads as unsupported. ?voice=1 pretends it is
+    // listening and says something every few seconds, which is how the pill gets looked at here.
+    voiceStart: async () => ({ supported: fakeVoice, listening: fakeVoice, error: fakeVoice ? null : 'Voice control needs Windows.' }),
+    voiceStop: async () => ({ supported: fakeVoice, listening: false, error: null }),
+    voiceState: async () => ({ supported: fakeVoice, listening: fakeVoice, error: null }),
+    onVoice: (cb) => {
+      if (!fakeVoice) return () => undefined;
+      const said = ['big screen', 'library', 'play hollow orbit', 'make me a sandwich'];
+      let i = 0;
+      const h = setInterval(() => cb(`ok lumen ${said[i++ % said.length]}`), 5000);
+      return () => clearInterval(h);
+    },
+    onVoiceState: (cb) => {
+      if (!fakeVoice) return () => undefined;
+      const h = setTimeout(() => cb({ supported: true, listening: true, error: null }), 300);
+      return () => clearTimeout(h);
+    },
     quit: async () => undefined,
     onLibraryChanged: (cb) => {
       listeners.add(cb);

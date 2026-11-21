@@ -102,7 +102,8 @@ export async function getSettings(): Promise<Settings> {
     }
     try {
       // The Photo tile style was dropped; a saved copy of it falls back to Classic.
-      if ((settings.cardStyle as string) === 'polaroid') settings.cardStyle = 'classic';
+      // styles that have been taken out again fall back rather than leaving a tile with no look
+      if (['polaroid', 'cd', 'tape'].includes(settings.cardStyle as string)) settings.cardStyle = 'classic';
       // v2: most played first by default, and a "Most played" row on the Big Screen home.
       if ((settings.settingsVersion ?? 1) < 2) {
         if (settings.sort === 'title') settings.sort = 'playtime';

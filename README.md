@@ -180,6 +180,37 @@ Xbox mode needs Windows 11 24H2 or newer. AnyFSE, OmniConsole and the Xbox Full 
 
 Each game page has an About section with the description, developer, publisher, release date, genres, features, Metacritic score and screenshots from the official Steam store API, plus links to the Steam store and to SteamDB. SteamDB has no public API and doesn't allow automated scraping, so Lumen links to it instead of pulling data from it. Non-Steam games are matched to the Steam store by name, and the page says so. Results are cached for a week.
 
+## Voice control
+
+Say **“OK Lumen”** and then a command. It is off until you turn it on, in Settings → Controls → Voice.
+
+Lumen brings no speech engine of its own and sends nothing anywhere. It drives the recogniser that is already part of Windows, listening on your default microphone, and it is given a closed list of phrases: the commands below, and your game names when “Start games by name” is on. Nothing is recorded, nothing is kept, and the microphone is only open while the switch is on. That short list is also why it hears you accurately with no training at all: the engine is choosing between a few hundred known phrases, not transcribing free speech.
+
+Nothing happens unless the wake words come first, so the room can talk without setting the launcher off.
+
+| Say | What happens |
+| --- | --- |
+| “OK Lumen, home” | Go to Home |
+| “OK Lumen, library” | Open the library |
+| “OK Lumen, favorites” | Open favourites |
+| “OK Lumen, search” | Start a search |
+| “OK Lumen, settings” | Open Settings |
+| “OK Lumen, scan for games” | Scan the launchers again |
+| “OK Lumen, big screen” / “exit big screen” | In and out of Big Screen |
+| “OK Lumen, move up / down / left / right” | Move around |
+| “OK Lumen, select” / “back” | Pick what you are on, or go back |
+| “OK Lumen, play this” | Start the game you are on |
+| “OK Lumen, play *a game*” | Start that game by name |
+| “OK Lumen, music on” / “music off” | The music |
+| “OK Lumen, power menu” | Open the power menu |
+| “OK Lumen, stop listening” | Switch voice off again |
+
+The power menu opens on a word, but nothing is ever shut down or restarted by one: that still needs a button, the same as before.
+
+![The Voice block in Settings](voice-settings.png)
+
+A small pill in the corner shows that Lumen is listening and what it heard, and you can turn that off. If it is not hearing you, check that Windows has a speech recogniser set up under Settings → Time & language → Speech, and that desktop apps may use the microphone under Settings → Privacy → Microphone. Game names are matched on their spoken form, so punctuation is ignored and a lone digit is said as a word: “play portal two”.
+
 ## Controls and shortcuts
 
 Settings → Controls lets you rebind every navigation action to any key and any controller button, change all app shortcuts, and set one system-wide shortcut that opens Big Screen even when Lumen is in the background.
@@ -326,17 +357,15 @@ Settings → Library → Tile style changes the frame around every game tile, in
 
 - **Classic**: soft shadow and a gentle lift, the look Lumen starts with.
 - **DVD case**: the cover in a black keep case, with the spine band down the left, the hinge line beside it and the right corners rounded the way the real thing is. The disc slides out of the case on the game you are on and turns while it is out, and it slides back in when you move away.
-- **CD**: a square jewel case seen front on, with the artwork printed on the disc inside it. The hub, the clear band and the clamping ring sit in the middle, the case has its four moulded corner clips and a ridge round the inside, and a diagonal gloss runs over the plastic. The disc turns in a slow loop while the tile is the one you are on, and it holds still if you have asked Windows for less motion.
 - **Flat**: a quiet outline, nothing moves. Easiest on a slow PC.
 - **Framed**: the artwork sits inside a mat, like a picture in a frame.
 - **Glass**: a frosted pane with a lit top edge.
 - **Neon**: every tile ringed in your accent colour, bright when picked.
 - **Shelf**: tiles stand on a surface with a shadow pooling under them.
 - **Sticker**: a thick cut edge and a hard offset shadow.
-- **Cassette**: the artwork becomes the label on a tape, in a shell with its five screws, the moulded ridge round the edge and a window cut into the middle. The two reels of wound tape turn in that window while the tile is the one you are on. Like the CD, a cassette is wider than it is tall, so this style sets its own shape rather than taking the tile's.
 - **RGB**: a turning rainbow ring that marks the game you are on. The other tiles stay plain, and the selected one gets the ring plus a soft glow of the same colours just inside its edge. The whole effect stays inside the picture, and its thickness is a share of the tile, so it looks the same on a small cover in the grid and on a wide banner across a TV. The ring is its own layer, so the artwork keeps its rounded corners and the ring keeps turning whatever you choose in Settings → Appearance → Animations. Reduce motion stops it, as it stops every other animation.
 
-![The cases and the cassette in the picker](tile-styles-cases.png)
+![The tile styles in the picker](tile-styles-cases.png)
 
 Tile style is about the frame. The animation when a tile is picked is separate, in Settings → Appearance → Animations.
 

@@ -55,6 +55,10 @@ export function Desktop({ onBigScreen }: { onBigScreen(): void }) {
     if (cmd === 'settings') setShowSettings(true);
     if (cmd === 'power') setPower(true);
     if (cmd === 'addGame') setAdding(true);
+    // Spoken commands land here too.
+    if (cmd === 'home') nav({ kind: 'home' });
+    if (cmd === 'library') nav({ kind: 'all' });
+    if (cmd === 'favorites') nav({ kind: 'favorites' });
   });
 
   const visible = useMemo(() => library.games.filter((g) => !g.overrides.hidden && (g.installed || settings.showUninstalled || g.source === 'manual')), [library.games, settings.showUninstalled]);

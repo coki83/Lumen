@@ -117,7 +117,14 @@ export function BigScreen({ onExit }: { onExit(): void }) {
     playSound('outro');
     setTimeout(onExit, 2300);
   };
-  useCommand((cmd) => cmd === 'power' && setPower(true));
+  useCommand((cmd) => {
+    if (cmd === 'power') setPower(true);
+    // Spoken commands: the tabs by name, and the search keyboard.
+    if (cmd === 'home') setTab('Home');
+    if (cmd === 'library') setTab('Library');
+    if (cmd === 'favorites') setTab('Favorites');
+    if (cmd === 'search') { setSearch(''); setHitIdx(0); }
+  });
   useIdleCursor();
   // The row of button hints along the bottom is for the first evenings. It fades out a few seconds
   // after the last press and comes straight back on the next one, so it is there when you have
@@ -763,9 +770,7 @@ function WideTile({ g, focused, badge, onClick }: { g: Game; focused: boolean; b
         {pick?.cover && <img className="wide-cover" src={img} alt="" draggable={false} />}
         {a.logo ? <img className="wide-logo" src={a.logo} alt="" draggable={false} onError={(e) => (e.currentTarget.style.display = 'none')} /> : null}
         <span className={`wide-title ${a.logo ? 'has-logo' : ''}`}>{titleOf(g)}</span>
-        {settings?.cardStyle === 'cd' && <><i className="disc-hub" aria-hidden /><i className="disc-tray" aria-hidden /></>}
-        {settings?.cardStyle === 'tape' && <><i className="tape-win" aria-hidden /><i className="tape-reel tr-l" aria-hidden /><i className="tape-reel tr-r" aria-hidden /><i className="tape-shell" aria-hidden /></>}
-        {(settings?.cardStyle === 'dvd' || settings?.cardStyle === 'cd') && <i className="case-gloss" aria-hidden />}
+        {settings?.cardStyle === 'dvd' && <i className="case-gloss" aria-hidden />}
         {badge && <SourceBadge source={g.source} />}
         <PadBadge g={g} />
         <DownloadOverlay g={g} />
