@@ -325,7 +325,7 @@ The numbers come from Windows itself (the logical disks it reports), including r
 Settings → Library → Tile style changes the frame around every game tile, in the desktop view and in Big Screen alike. Each choice is previewed on a real game from your library.
 
 - **Classic**: soft shadow and a gentle lift, the look Lumen starts with.
-- **DVD case**: the cover in a black keep case, with the spine band down the left, the hinge line beside it and the right corners rounded the way the real thing is.
+- **DVD case**: the cover in a black keep case, with the spine band down the left, the hinge line beside it and the right corners rounded the way the real thing is. The disc slides out of the case on the game you are on and turns while it is out, and it slides back in when you move away.
 - **CD**: a square jewel case seen front on, with the artwork printed on the disc inside it. The hub, the clear band and the clamping ring sit in the middle, the case has its four moulded corner clips and a ridge round the inside, and a diagonal gloss runs over the plastic. The disc turns in a slow loop while the tile is the one you are on, and it holds still if you have asked Windows for less motion.
 - **Flat**: a quiet outline, nothing moves. Easiest on a slow PC.
 - **Framed**: the artwork sits inside a mat, like a picture in a frame.
@@ -333,9 +333,10 @@ Settings → Library → Tile style changes the frame around every game tile, in
 - **Neon**: every tile ringed in your accent colour, bright when picked.
 - **Shelf**: tiles stand on a surface with a shadow pooling under them.
 - **Sticker**: a thick cut edge and a hard offset shadow.
+- **Cassette**: the artwork becomes the label on a tape, in a shell with its five screws, the moulded ridge round the edge and a window cut into the middle. The two reels of wound tape turn in that window while the tile is the one you are on. Like the CD, a cassette is wider than it is tall, so this style sets its own shape rather than taking the tile's.
 - **RGB**: a turning rainbow ring that marks the game you are on. The other tiles stay plain, and the selected one gets the ring plus a soft glow of the same colours just inside its edge. The whole effect stays inside the picture, and its thickness is a share of the tile, so it looks the same on a small cover in the grid and on a wide banner across a TV. The ring is its own layer, so the artwork keeps its rounded corners and the ring keeps turning whatever you choose in Settings → Appearance → Animations. Reduce motion stops it, as it stops every other animation.
 
-![The DVD and CD cases in the picker](tile-styles-cases.png)
+![The cases and the cassette in the picker](tile-styles-cases.png)
 
 Tile style is about the frame. The animation when a tile is picked is separate, in Settings → Appearance → Animations.
 

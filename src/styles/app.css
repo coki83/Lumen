@@ -997,7 +997,7 @@ body.no-cursor, body.no-cursor * { cursor: none !important; }
    grid and a banner across a television get the same case rather than the same number of pixels:
    that is the lesson the Photo style taught. Everything stays inside .art, which keeps clipping,
    so nothing of either case can paint over the tile next door. */
-.card.cs-dvd, .card.cs-cd { container-type: inline-size; }
+.card.cs-dvd, .card.cs-cd, .card.cs-tape { container-type: inline-size; }
 
 /* The keep case: black plastic all round, a wider band down the left for the spine, and the
    hinge line beside it. The right corners are rounder than the left, as the real thing is. */
@@ -1007,11 +1007,33 @@ body.no-cursor, body.no-cursor * { cursor: none !important; }
   box-shadow: 0 1cqw 2.6cqw rgba(0,0,0,.6), inset 0 0 0 1px rgb(255 255 255 / .09);
 }
 .card.cs-dvd .art > img:not(.badge-icon), .card.cs-dvd .art > .fallback, .card.cs-dvd .art > .wide-shade {
-  top: 1.1cqw; left: 9cqw; right: 1.1cqw; bottom: 1.1cqw;
-  width: calc(100% - 10.1cqw); height: calc(100% - 2.2cqw);
+  top: 1.1cqw; left: 9cqw; right: 21cqw; bottom: 1.1cqw;
+  width: calc(100% - 30cqw); height: calc(100% - 2.2cqw);
   border-radius: .5cqw 2.4cqw 2.4cqw .5cqw;
 }
+/* The disc inside the case. It sits behind the cover, slides out into the strip on the right when
+   the tile is the one you are on, and turns while it is out. Sliding is done on `right` and not on
+   a transform, so that the transform is free to carry nothing but the turn. */
+.card.cs-dvd .dvd-disc {
+  position: absolute; z-index: 0; pointer-events: none;
+  width: 48cqw; aspect-ratio: 1; border-radius: 50%;
+  top: 50%; right: -50cqw; margin-top: -24cqw;
+  transition: right .38s cubic-bezier(.2,.7,.3,1);
+  background:
+    radial-gradient(circle at 50% 50%,
+      #0e0e12 0 11%, #43454c 11% 13%, #c9ccd4 13% 16%, #1b1c21 16% 21%, #0000 21.5%),
+    conic-gradient(from 0deg,
+      #3a3d45, #8d93a1, #4b4f58, #a7adbb, #44474f, #9299a8, #3a3d45);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .22), 0 .6cqw 1.6cqw rgba(0,0,0,.6);
+}
+.card.cs-dvd.focused .dvd-disc, .card.cs-dvd:hover .dvd-disc {
+  right: 1.2cqw;
+  animation: discspin 6s linear infinite !important;
+}
+html[data-motion="reduce"] .card.cs-dvd .dvd-disc { animation: none !important; transition: none; }
 .card.cs-dvd .art::before, .card.cs-dvd .art::after { border-radius: inherit; }
+.card.cs-dvd .art > .fallback { padding: 0 9%; text-align: center; overflow: hidden; }
+.card.cs-dvd .art > .fallback .fb-title { font-size: clamp(10px, calc(var(--card, 180px) * .062), 18px); }
 .card.cs-dvd:hover .art { transform: translateY(-.5cqw) scale(1.02); }
 .card.cs-dvd.focused .art { box-shadow: 0 0 0 .5cqw var(--accent), 0 1.6cqw 3.2cqw rgba(0,0,0,.7), 0 0 3cqw var(--glow); }
 
@@ -1077,6 +1099,77 @@ html[data-motion="reduce"] .card.cs-cd .art > img:not(.badge-icon),
 html[data-motion="reduce"] .card.cs-cd .art > .fallback { animation: none !important; }
 
 .card.cs-dvd .case-gloss { border-radius: 1.2cqw 3.4cqw 3.4cqw 1.2cqw; }
+
+/* The cassette. A tape is wider than it is tall whatever shape the tile is, so like the CD this
+   style sets its own aspect. The artwork is the label across the whole face, the window is cut
+   into it, and the two reels turn in the window while the tile is the one you are on. */
+.card.cs-tape .art {
+  aspect-ratio: 1.58;
+  background: linear-gradient(160deg, #26262c, #101014 60%, #08080a);
+  border-radius: 2cqw;
+  box-shadow: 0 1cqw 2.4cqw rgba(0,0,0,.6), inset 0 0 0 1px rgb(255 255 255 / .16);
+}
+.card.cs-tape .art > img:not(.badge-icon), .card.cs-tape .art > .fallback, .card.cs-tape .art > .wide-shade {
+  top: 3cqw; left: 3cqw; right: 3cqw; bottom: 3cqw;
+  width: calc(100% - 6cqw); height: calc(100% - 6cqw);
+  border-radius: 1cqw; object-fit: cover;
+}
+/* A game with no artwork puts its name on the label, which here means above the window. */
+.card.cs-tape .art > .fallback { align-items: flex-start; justify-content: center; padding: 4% 14% 0; text-align: center; overflow: hidden; }
+.card.cs-tape .art > .fallback .fb-title {
+  font-size: clamp(9px, calc(var(--card, 180px) * .05), 15px); line-height: 1.15;
+  /* only the strip above the window is label, so a long name is cut there rather than run under it */
+  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* The window in the shell: dark inside, with the lit edge the moulding has. */
+.card.cs-tape .tape-win {
+  position: absolute; z-index: 2; pointer-events: none;
+  left: 19cqw; right: 19cqw; top: 23cqw; height: 25cqw;
+  border-radius: 1.4cqw;
+  background: linear-gradient(180deg, #100e0c, #050404);
+  box-shadow: inset 0 0 0 .5cqw rgb(255 255 255 / .1), inset 0 .4cqw 1cqw rgba(0,0,0,.8), 0 0 0 1px rgb(0 0 0 / .6);
+}
+/* A reel: wound tape in rings, then the white hub with its teeth. */
+.card.cs-tape .tape-reel {
+  position: absolute; z-index: 3; pointer-events: none;
+  width: 21cqw; aspect-ratio: 1; top: 25cqw; border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%, #4a3425 0 1.2%, #2b1e15 1.2% 2.4%),   /* the tape, wound */
+    radial-gradient(circle at 42% 36%, #6b4c35, #30221a 72%, #1a120d);
+}
+/* The white hub, in wedges so that the turn is plain to see even on a small tile. */
+.card.cs-tape .tape-reel::before {
+  content: ''; position: absolute; inset: 29%; border-radius: 50%;
+  background: repeating-conic-gradient(from -12deg, #e9eaed 0 16.66%, #b4b8c0 16.66% 33.33%);
+  box-shadow: 0 0 0 .35cqw #d94436, 0 0 .6cqw rgba(0,0,0,.6);
+}
+/* The spindle hole in the middle of the hub. */
+.card.cs-tape .tape-reel::after {
+  content: ''; position: absolute; inset: 41%; border-radius: 50%;
+  background: #0b0b0d; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .25);
+}
+.card.cs-tape .tr-l { left: 25cqw; }
+.card.cs-tape .tr-r { right: 25cqw; }
+.card.cs-tape.focused .tape-reel, .card.cs-tape:hover .tape-reel {
+  animation: discspin 4.5s linear infinite !important;
+}
+html[data-motion="reduce"] .card.cs-tape .tape-reel { animation: none !important; }
+/* The shell over it all: the five screws, the two spindle guides and the ridge round the edge. */
+.card.cs-tape .tape-shell {
+  position: absolute; z-index: 4; inset: 0; pointer-events: none; border-radius: inherit;
+  --screw: radial-gradient(circle at 50% 50%, #9aa0ab 0 36%, #4c5059 36% 52%, #0000 54%);
+  background:
+    var(--screw) left 3.2cqw top 3.2cqw / 4cqw 4cqw no-repeat,
+    var(--screw) right 3.2cqw top 3.2cqw / 4cqw 4cqw no-repeat,
+    var(--screw) left 3.2cqw bottom 3.2cqw / 4cqw 4cqw no-repeat,
+    var(--screw) right 3.2cqw bottom 3.2cqw / 4cqw 4cqw no-repeat,
+    var(--screw) center bottom 3.2cqw / 4cqw 4cqw no-repeat,
+    linear-gradient(118deg, rgb(255 255 255 / .2) 0 7%, rgb(255 255 255 / .05) 17%, #0000 30%);
+  box-shadow: inset 0 0 0 1.6cqw rgb(255 255 255 / .05), inset 0 0 0 1.7cqw rgb(255 255 255 / .12);
+}
+.card.cs-tape:hover .art { transform: translateY(-.5cqw) scale(1.02); }
+.card.cs-tape.focused .art { box-shadow: 0 0 0 .5cqw var(--accent), 0 1.6cqw 3.2cqw rgba(0,0,0,.7), 0 0 3cqw var(--glow); }
 
 .card.cs-sticker .art { box-shadow: 0 0 0 3px var(--sticker-edge, #fff), 6px 6px 0 rgba(0,0,0,.55); }
 .card.cs-sticker:hover .art { transform: translate(-2px, -2px); box-shadow: 0 0 0 3px var(--sticker-edge, #fff), 9px 9px 0 rgba(0,0,0,.6); }

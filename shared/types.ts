@@ -73,7 +73,7 @@ export interface Game extends ScannedGame {
 export type DesktopLayout = 'grid' | 'list' | 'shelves';
 export type SortKey = 'title' | 'recent' | 'added' | 'playtime' | 'source';
 
-export type CardStyle = 'classic' | 'cd' | 'dvd' | 'flat' | 'frame' | 'glass' | 'neon' | 'rgb' | 'shelf' | 'sticker';
+export type CardStyle = 'classic' | 'cd' | 'dvd' | 'flat' | 'frame' | 'glass' | 'neon' | 'rgb' | 'shelf' | 'sticker' | 'tape';
 /** The look of the vibes card on Home. 'hidden' leaves it out of both views. */
 /** Which mark Lumen draws for itself. All of them animate; the ones with a core light it. */
 export type LogoStyle = 'power' | 'orbit' | 'pulse' | 'reactor' | 'spark';

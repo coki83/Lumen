@@ -892,7 +892,7 @@ const CARD_HINT: Record<string, string> = { full: 'Pop, light sweep, drifting ar
 
 const CARD_STYLES = [
   { id: 'classic', name: 'Classic', hint: 'Soft shadow, gentle lift' },
-  { id: 'dvd', name: 'DVD case', hint: 'The cover in a keep case, spine and all' },
+  { id: 'dvd', name: 'DVD case', hint: 'The cover in a keep case. The disc slides out and turns while selected.' },
   { id: 'cd', name: 'CD', hint: 'The artwork on a disc in a jewel case. It turns while selected.' },
   { id: 'flat', name: 'Flat', hint: 'A quiet outline, nothing moves' },
   { id: 'frame', name: 'Framed', hint: 'The artwork sits in a mat' },
@@ -900,7 +900,8 @@ const CARD_STYLES = [
   { id: 'neon', name: 'Neon', hint: 'Ringed in your accent colour' },
   { id: 'rgb', name: 'RGB', hint: 'A turning rainbow ring on the game you are on' },
   { id: 'shelf', name: 'Shelf', hint: 'Standing on a surface, with a shadow under it' },
-  { id: 'sticker', name: 'Sticker', hint: 'A cut edge and a hard shadow' }
+  { id: 'sticker', name: 'Sticker', hint: 'A cut edge and a hard shadow' },
+  { id: 'tape', name: 'Cassette', hint: 'The artwork as the label on a tape. The reels turn while selected.' }
 ] as const;
 
 /** The look of a game tile, shown on real artwork from the library so the choice is honest. */
