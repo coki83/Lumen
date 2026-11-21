@@ -22,7 +22,8 @@
     "build": "tsc -p tsconfig.electron.json && tsc --noEmit -p tsconfig.json && vite build",
     "start": "npm run build && electron .",
     "dist": "npm run build && electron-builder --win",
-    "dist:portable": "npm run build && electron-builder --win portable"
+    "dist:portable": "npm run build && electron-builder --win portable",
+    "dist:dir": "npm run build && electron-builder --win dir -c.win.signAndEditExecutable=false && node scripts/win-metadata.mjs"
   },
   "dependencies": {
     "sql.js": "^1.12.0"
@@ -46,6 +47,10 @@
   "build": {
     "appId": "app.lumen.launcher",
     "productName": "Lumen",
+    "copyright": "Copyright © 2026 Coki",
+    "extraMetadata": {
+      "description": "Lumen"
+    },
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -71,7 +76,7 @@
           ]
         }
       ],
-      "icon": "build/icon.png"
+      "icon": "build/icon.ico"
     },
     "nsis": {
       "oneClick": false,

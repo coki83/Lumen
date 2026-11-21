@@ -146,6 +146,16 @@ A game's Steam news feed mixes every language the developer posts in, and Steam 
 
 Settings, Menus and weather, **Vibes card** sets how it looks and which mood it uses. The looks are Panel (a flat panel with an accent edge), Soft (a gentle tint), Outline (just a thin line), Photo (the first pick's artwork, dimmed), Bold (filled with your accent colour), Glass (frosted and see-through) and Off, which leaves the card out of both views. Mood is either "Rotate daily", which gives you a different one each day and puts an "Another vibe" button on the card to step through the rest, or one mood that stays. A mood you pick works at any hour, even the ones that normally only show up in the morning or late at night.
 
+## What the exe calls itself
+
+Right-click `Lumen.exe` → Properties → Details should say **Lumen**, not Electron. That comes from three places:
+
+- `build.extraMetadata.description` is `"Lumen"`, because electron-builder writes the **File description** from the package description, and the long one-line summary this project has would otherwise end up in Explorer and in Task Manager.
+- `build/icon.ico` carries 16, 24, 32, 48, 64, 128 and 256 pixel frames, each drawn at its own size rather than squeezed down from one big one. A 6.5-wide power mark shrunk from 512 to 16 turns to mush; drawn at 16 with a thicker line it still reads.
+- `build.copyright` is Coki's, not the one Electron ships with.
+
+On Windows, electron-builder writes all of that into the exe itself. It does that by running rcedit, which on Linux needs wine, and the container these rounds are built in has none, so container builds have to pass `signAndEditExecutable=false` and used to come out still calling themselves Electron. `npm run dist:dir` now runs `scripts/win-metadata.mjs` afterwards, which does the same job with **resedit**, in plain JavaScript, with no wine: it rewrites the version strings and swaps in every icon size, keeping the asar integrity resource electron-builder put there. The exes from the GitHub Actions build never had the problem, since that runs on a real Windows machine.
+
 ## Couch mode and Windows Xbox mode (FSE)
 
 Settings → Big Screen → **Set up couch mode** does the sofa setup in one click: Lumen starts with Windows, opens straight into full screen Big Screen, and gets a "Lumen Big Screen" desktop shortcut plus a `lumen://bigscreen` link. Starting `Lumen.exe --bigscreen` (or the link) while Lumen is already open switches the running window to Big Screen.
