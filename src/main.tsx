@@ -21,6 +21,7 @@ class Boundary extends Component<{ children: ReactNode }, { err?: string }> {
 import { App } from './App';
 import { LumenProvider } from './lib/store';
 import './styles/app.css';
+import './styles/noir.css';
 
 createRoot(document.getElementById('root')!).render(
   <Boundary>
