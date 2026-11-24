@@ -2,7 +2,7 @@ import { DEFAULT_KEYS, DEFAULT_PAD, DEFAULT_SHORTCUTS } from '../shared/bindings
 import type { Settings } from '../shared/types';
 
 export const DEFAULT_SETTINGS: Settings = {
-  theme: 'ember',
+  theme: 'noir',
   accent: '',
   background: 'hero',
   wallpaper: 'waves',
@@ -37,7 +37,7 @@ export const DEFAULT_SETTINGS: Settings = {
   backgroundDim: 0.7,
   layout: 'grid',
   cardSize: 180,
-  cardRadius: 12,
+  cardRadius: 18,
   cardStyle: 'classic',
   logoStyle: 'power',
   vibesStyle: 'panel',
@@ -50,7 +50,7 @@ export const DEFAULT_SETTINGS: Settings = {
   fontScale: 1,
   font: 'theme',
   density: 'cozy',
-  sidebarCollapsed: false,
+  sidebarCollapsed: true,
   reduceMotion: false,
   startInBigScreen: false,
   launchOnStartup: false,
@@ -60,7 +60,7 @@ export const DEFAULT_SETTINGS: Settings = {
   bigScreenHints: 'auto',
   tempsOn: true,
   bigScreenRows: ['recent', 'mostPlayed', 'favorites', 'all', 'sources'],
-  settingsVersion: 2,
+  settingsVersion: 3,
   enabledSources: { steam: true, epic: true, gog: true, ea: true, ubisoft: true, xbox: true, battlenet: true, amazon: true, quiver: true, manual: true },
   steamGridDbKey: '',
   showUninstalled: true,

@@ -10,6 +10,10 @@ const base = (v: Partial<Record<string, string>>) => v as Record<string, string>
 
 export const THEMES: Theme[] = [
   {
+    id: 'noir', name: 'Noir', dark: true, font: 'inter',
+    vars: base({ bg: '#08080a', bg2: '#101013', panel: 'rgba(20,20,25,0.62)', panel2: 'rgba(36,36,43,0.72)', text: '#f4f0e9', muted: '#948d82', accent: '#d9b26a', accentInk: '#14100a', border: 'rgba(244,240,233,0.09)', glow: 'rgba(217,178,106,0.34)' })
+  },
+  {
     id: 'ember', name: 'Ember', dark: true, font: 'inter',
     vars: base({ bg: '#0f0c0e', bg2: '#17121a', panel: 'rgba(32,24,30,0.72)', panel2: 'rgba(52,38,44,0.75)', text: '#f6ece6', muted: '#a8968f', accent: '#ff8a3d', accentInk: '#1b0e05', border: 'rgba(255,214,190,0.10)', glow: 'rgba(255,138,61,0.45)' })
   },

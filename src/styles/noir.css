@@ -1,0 +1,318 @@
+/* ============================================================================
+   Noir — the cinematic cover-wall layer.
+
+   Loaded after app.css, so equal-specificity rules here win and nothing in the
+   original file has to be edited or deleted. Everything is expressed through the
+   theme variables (--bg, --panel, --text, --accent, --radius …) rather than fixed
+   colours, so all eight palettes — including the two light ones — keep working,
+   and Settings / Big Screen / game pages inherit the same look.
+
+   The shape of the change:
+     · type        Fraunces for display, Inter for interface, wide-tracked labels
+     · chrome      floating glass rail instead of a wall-to-wall sidebar
+     · hero        taller, scrimmed from the left, serif title, pill play button
+     · shelves     hairline rule under each heading, airier rows, rounder art
+     · depth       deep soft shadows and hairline borders instead of outlines
+   ========================================================================== */
+
+:root {
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --hair: color-mix(in srgb, var(--text) 8%, transparent);
+  --hair-strong: color-mix(in srgb, var(--text) 15%, transparent);
+  --glass: color-mix(in srgb, var(--bg2) 66%, transparent);
+  --lift: 0 30px 70px -34px rgba(0, 0, 0, .8);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+
+/* ---------------------------------------------------------------- base ---- */
+
+body { letter-spacing: -.005em; }
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; letter-spacing: -.02em; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--text) 14%, transparent); }
+::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--text) 26%, transparent); }
+
+::selection { background: color-mix(in srgb, var(--accent) 40%, transparent); }
+
+/* ---------------------------------------------------------------- shell --- */
+
+.desktop { grid-template-columns: 276px minmax(0, 1fr); }
+
+.sidebar {
+  margin: 12px 0 12px 12px;
+  padding: 16px 12px 14px;
+  border: 1px solid var(--hair);
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  backdrop-filter: blur(30px) saturate(1.15);
+  box-shadow: var(--lift), inset 0 1px 0 color-mix(in srgb, var(--text) 7%, transparent);
+  overflow-x: hidden;
+}
+
+.brand { font-family: var(--font-display); font-size: 1.32rem; font-weight: 600; letter-spacing: .01em; padding: 6px 10px 14px; }
+.brand .collapse { color: color-mix(in srgb, var(--text) 45%, transparent); }
+
+.nav-item { height: 40px; border-radius: 12px; font-weight: 500; font-size: .9rem; letter-spacing: .005em; }
+.nav-item:hover { background: color-mix(in srgb, var(--text) 5%, transparent); }
+.nav-item.on { background: color-mix(in srgb, var(--accent) 13%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent); }
+.nav-item.on svg { color: var(--accent); }
+
+.nav-sec { margin: 20px 10px 6px; font-size: .62rem; font-weight: 600; letter-spacing: .2em; color: color-mix(in srgb, var(--text) 40%, transparent); }
+.nav-item .count { font-size: .72rem; color: color-mix(in srgb, var(--text) 42%, transparent); }
+
+.side-foot { margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--hair); }
+.drive-panel { margin-top: 4px; }
+.sidebar nav { margin-right: -4px; padding-right: 4px; }
+
+/* Collapsed: the sidebar leaves the grid and floats as a rail, sliding out over
+   the content on hover. Nothing is lost — just quieter until you reach for it. */
+.desktop.collapsed { grid-template-columns: 0 minmax(0, 1fr); }
+.desktop.collapsed > .sidebar {
+  position: fixed; left: 12px; top: 12px; bottom: 12px; width: 76px; margin: 0;
+  z-index: 40; padding: 16px 12px;
+  transition: width .3s var(--ease-out), box-shadow .3s var(--ease-out);
+}
+.desktop.collapsed > .sidebar:hover { width: 288px; box-shadow: 0 40px 90px -30px rgba(0, 0, 0, .9); background: color-mix(in srgb, var(--bg) 86%, transparent); }
+.desktop.collapsed > .sidebar:hover .nav-label { display: flex; }
+.desktop.collapsed > .sidebar:hover .nav-sec { display: flex; }
+.desktop.collapsed > .sidebar:hover .count { display: inline; }
+.desktop.collapsed > .sidebar:hover .new-cat { display: block; }
+.desktop.collapsed > .sidebar:hover .brand { flex-direction: row; padding: 6px 10px 14px; }
+.desktop.collapsed > .sidebar:hover .brand .collapse { margin: 0 0 0 auto; }
+.desktop.collapsed > .sidebar:hover .nav-item { justify-content: flex-start; padding: 0 10px; }
+/* The rail keeps only navigation: the readouts return when it opens. */
+.desktop.collapsed > .sidebar :is(.pad-readout, .drive-panel, .dl-panel) { display: none; }
+.desktop.collapsed > .sidebar:hover .pad-readout { display: flex; }
+.desktop.collapsed > .sidebar:hover .drive-panel,
+.desktop.collapsed > .sidebar:hover .dl-panel { display: block; }
+/* The sidebar is out of the grid flow here, so the main pane must claim the second column. */
+.desktop.collapsed .main { grid-column: 2; padding-left: 88px; }
+
+/* -------------------------------------------------------------- toolbar --- */
+
+.toolbar { padding: 26px 40px 10px; gap: 14px; }
+.toolbar h1 { font-size: clamp(1.8rem, 2.1vw, 2.2rem); font-weight: 500; letter-spacing: -.025em; margin-right: 14px; }
+
+.search {
+  height: 42px; padding: 0 16px; border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 42%, transparent);
+  border: 1px solid var(--hair); backdrop-filter: blur(14px);
+  width: min(340px, 26vw);
+}
+.search:focus-within { border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent); }
+.search input { font-size: .92rem; }
+
+.content { padding: 20px 40px 64px; }
+
+/* ----------------------------------------------------------------- hero --- */
+
+.spotlight {
+  height: clamp(320px, 42vh, 520px);
+  border-radius: calc(var(--radius) + 4px);
+  margin-bottom: 36px;
+  box-shadow: 0 50px 100px -50px rgba(0, 0, 0, .95);
+}
+.spotlight::after {
+  background:
+    linear-gradient(76deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, .62) 34%, rgba(0, 0, 0, .16) 62%, transparent 82%),
+    linear-gradient(0deg, rgba(0, 0, 0, .62) 0%, transparent 52%);
+}
+.spot-info { left: 44px; bottom: 40px; gap: 16px; max-width: 58%; }
+.spot-info h2 { font-size: clamp(2.4rem, 3.5vw, 3.5rem); font-weight: 500; letter-spacing: -.03em; text-shadow: 0 6px 40px rgba(0, 0, 0, .6); text-wrap: balance; }
+.spot-logo { max-height: 120px; filter: drop-shadow(0 8px 36px rgba(0, 0, 0, .75)); }
+.spot-meta { font-size: .82rem; letter-spacing: .03em; color: rgba(255, 255, 255, .72); }
+.spot-info .btn.primary { height: 54px; padding: 0 32px; border-radius: 999px; font-size: 1rem; font-weight: 600; letter-spacing: .02em; box-shadow: 0 20px 46px -18px var(--glow); }
+.spot-info .btn.primary:hover { box-shadow: 0 26px 60px -18px var(--glow); }
+
+.eyebrow { font-size: .66rem; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--accent); }
+
+/* -------------------------------------------------------------- shelves --- */
+
+.shelf { margin-bottom: 38px; }
+.shelf-head { align-items: center; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--hair); }
+.shelf-head h3 { font-size: 1.42rem; font-weight: 500; letter-spacing: -.015em; }
+.shelf-head .link { font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--text) 45%, transparent); }
+.shelf-head .link:hover { color: var(--accent); }
+.shelf-row { gap: clamp(14px, 1.35vw, 22px); padding: 10px 2px 16px; margin: -8px -2px 0; }
+
+/* ---------------------------------------------------------------- cards --- */
+
+.card .art {
+  border-radius: calc(var(--radius) * .72);
+  box-shadow: 0 20px 44px -26px rgba(0, 0, 0, .9), inset 0 0 0 1px color-mix(in srgb, var(--text) 6%, transparent);
+}
+.card:hover .art {
+  transform: translateY(-6px);
+  box-shadow: 0 40px 70px -30px rgba(0, 0, 0, .95), 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.card.focused .art {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 0 2px var(--accent), 0 30px 70px -26px var(--glow);
+}
+.card-title { margin-top: 12px; font-size: .82rem; font-weight: 500; letter-spacing: .005em; color: color-mix(in srgb, var(--text) 72%, transparent); }
+.card:hover .card-title, .card.focused .card-title { color: var(--text); }
+.card .badge { border-radius: 6px; letter-spacing: .06em; }
+.fav-dot { filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .9)); }
+
+/* Placeholder artwork carries the name too; in the display face it reads as a label
+   rather than shouting over the title underneath. */
+.fb-title { font-family: var(--font-display); font-weight: 500; letter-spacing: -.02em; text-shadow: 0 4px 24px rgba(0, 0, 0, .55); }
+
+/* ----------------------------------------------------------------- list --- */
+
+.list { gap: 0; }
+.list-head { padding: 0 14px 12px; border-bottom: 1px solid var(--hair); font-size: .64rem; letter-spacing: .18em; font-weight: 600; color: color-mix(in srgb, var(--text) 42%, transparent); }
+.list-row { background: transparent; border: 0; border-bottom: 1px solid var(--hair); border-radius: 0; padding: 10px 14px; font-size: .88rem; }
+.list-row:hover { background: color-mix(in srgb, var(--text) 4%, transparent); border-bottom-color: var(--hair-strong); }
+.list-row .thumb { border-radius: calc(var(--radius) * .38); }
+
+/* --------------------------------------------------- empty, toast, menu --- */
+
+.empty h3 { font-size: 1.65rem; font-weight: 500; }
+.empty p { color: color-mix(in srgb, var(--text) 55%, transparent); max-width: 42ch; }
+
+.toast {
+  border-radius: 999px; padding: 11px 22px;
+  background: color-mix(in srgb, var(--bg2) 82%, transparent);
+  border: 1px solid var(--hair-strong); backdrop-filter: blur(30px);
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, .9);
+  font-size: .84rem; letter-spacing: .015em;
+}
+
+.ctx {
+  border-radius: 18px; padding: 7px;
+  background: color-mix(in srgb, var(--bg2) 78%, transparent);
+  backdrop-filter: blur(32px) saturate(1.2);
+  border: 1px solid var(--hair-strong);
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, .95);
+}
+.ctx button { height: 34px; border-radius: 10px; font-size: .85rem; }
+.ctx-sec { font-size: .6rem; letter-spacing: .2em; font-weight: 600; }
+
+/* ------------------------------------------------- game page and modals --- */
+
+.gamepage-backdrop, .modal-backdrop { background: color-mix(in srgb, #000 62%, transparent); backdrop-filter: blur(14px) saturate(1.1); }
+
+.gamepage {
+  border-radius: 26px;
+  background: color-mix(in srgb, var(--bg2) 94%, transparent);
+  border: 1px solid var(--hair-strong);
+  box-shadow: 0 60px 140px -50px rgba(0, 0, 0, .95);
+}
+.gp-hero { height: 380px; }
+.gp-hero::after { background: linear-gradient(0deg, color-mix(in srgb, var(--bg2) 97%, transparent) 0%, color-mix(in srgb, var(--bg2) 55%, transparent) 42%, transparent 78%); }
+.gp-title { left: 36px; bottom: 24px; }
+.gp-title h2 { font-size: clamp(2.1rem, 3vw, 3rem); font-weight: 500; letter-spacing: -.03em; }
+.gp-bar { padding: 10px 36px 22px; }
+.gp-body { padding: 0 36px 32px; }
+.gp-stats span, .bs-stats span { font-size: .62rem; letter-spacing: .18em; font-weight: 600; }
+.gp-close { background: color-mix(in srgb, #000 45%, transparent); border: 1px solid var(--hair-strong); backdrop-filter: blur(14px); }
+
+.modal {
+  border-radius: 26px;
+  background: color-mix(in srgb, var(--bg2) 94%, transparent);
+  border: 1px solid var(--hair-strong);
+  box-shadow: 0 60px 140px -50px rgba(0, 0, 0, .95);
+}
+.modal header { padding: 22px 24px 12px; }
+.modal header h2 { font-size: 1.4rem; font-weight: 500; letter-spacing: -.02em; }
+.modal-body { padding: 8px 24px 24px; }
+.modal h4 { font-size: .62rem; letter-spacing: .2em; font-weight: 600; color: color-mix(in srgb, var(--text) 42%, transparent); }
+.modal footer { padding: 16px 24px; border-top: 1px solid var(--hair); }
+
+.power { border-radius: 26px; border: 1px solid var(--hair-strong); box-shadow: 0 60px 140px -50px rgba(0, 0, 0, .95); }
+.power h2 { font-weight: 500; letter-spacing: -.02em; }
+.power-item { border-radius: 14px; }
+
+/* ------------------------------------------------------------- settings --- */
+
+.settings { grid-template-columns: 200px minmax(0, 1fr); gap: 32px; }
+.settings-tabs { gap: 3px; }
+.settings-tabs .nav-item, .settings-tabs button { border-radius: 10px; font-weight: 500; }
+.settings-body { gap: 14px; }
+.settings-body h3, .settings-body h2 { font-weight: 500; }
+
+.themes { gap: 12px; }
+.theme-card { height: 92px; border-radius: 16px; box-shadow: inset 0 0 0 1px var(--hair); }
+.theme-card.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent); }
+.swatch { width: 34px; height: 34px; }
+
+.source-row, .art-slot, .row-item, .owned-box, .logo-style, .vibe-style {
+  border-radius: 16px; border-color: var(--hair);
+  background: color-mix(in srgb, var(--panel) 55%, transparent);
+}
+.logo-style.on, .vibe-style.on { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent); }
+
+/* ----------------------------------------------------------- big screen --- */
+
+.bs-tabs {
+  padding: 7px; border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 52%, transparent);
+  border: 1px solid var(--hair); backdrop-filter: blur(26px);
+}
+.bs-tabs button { height: 40px; border-radius: 999px; font-size: .96rem; font-weight: 500; letter-spacing: .01em; }
+.bs-brand { font-family: var(--font-display); font-weight: 600; letter-spacing: .01em; }
+.bs-clock { font-variant-numeric: tabular-nums; font-weight: 400; letter-spacing: .01em; }
+.bs-feature h1, .bs-detail-info h1, .bs-menu h2 { font-weight: 500; letter-spacing: -.03em; }
+.bs-row-title { font-size: 1.32rem; font-weight: 500; letter-spacing: -.015em; }
+.bs .card.focused .art, .bs .card.focused:hover .art { box-shadow: 0 0 0 3px var(--accent), 0 0 80px -14px var(--glow); }
+.bs-btn { border-radius: 999px; font-weight: 600; font-size: 1.08rem; }
+.bs-menu-item { border-radius: 999px; font-weight: 500; }
+.bs-hints { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--text) 55%, transparent); }
+.bs-hint-btn { border-radius: 8px; }
+.bs-exit { border-radius: 999px; }
+
+/* -------------------------------------------------------------- explore --- */
+
+.deal-row { grid-auto-columns: 300px; }
+.deal-info b { font-weight: 500; }
+.pulse-item { border-radius: 12px; }
+.vibes-text h3 { font-weight: 500; letter-spacing: -.02em; }
+
+/* ----------------------------------------------------------- screensaver --- */
+
+.saver-time, .saver-clock b { font-family: var(--font-display); font-weight: 400; letter-spacing: .01em; }
+.saver-head { font-family: var(--font-display); font-weight: 500; }
+
+/* ------------------------------------------------------- light palettes --- */
+
+:root[data-scheme='light'] { --lift: 0 26px 60px -34px rgba(60, 40, 20, .35); }
+:root[data-scheme='light'] .card .art { box-shadow: 0 18px 40px -26px rgba(60, 40, 20, .45), inset 0 0 0 1px rgba(0, 0, 0, .05); }
+:root[data-scheme='light'] .sidebar { background: color-mix(in srgb, #fff 62%, transparent); }
+:root[data-scheme='light'] .search { background: color-mix(in srgb, #fff 55%, transparent); }
+:root[data-scheme='light'] .gamepage-backdrop,
+:root[data-scheme='light'] .modal-backdrop { background: color-mix(in srgb, #2a2420 38%, transparent); }
+
+/* --------------------------------------------------------------- texture --- */
+
+.backdrop::after {
+  content: ''; position: absolute; inset: -50%; pointer-events: none;
+  background-image: var(--grain); opacity: .045; mix-blend-mode: overlay;
+  animation: grain-shift 8s steps(6) infinite;
+}
+@keyframes grain-shift {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-2%, 1%); }
+  40% { transform: translate(1%, -2%); }
+  60% { transform: translate(-1%, 2%); }
+  80% { transform: translate(2%, -1%); }
+}
+:root[data-motion='reduce'] .backdrop::after { animation: none; }
+
+.backdrop-shade {
+  background:
+    radial-gradient(140% 100% at 50% -20%, transparent 30%, color-mix(in srgb, var(--bg) 55%, transparent) 78%, var(--bg) 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 55%, transparent) 0%, color-mix(in srgb, var(--bg) 86%, transparent) 58%, var(--bg) 96%);
+}
+
+/* --------------------------------------------------------------- narrow --- */
+
+@media (max-width: 1100px) {
+  .toolbar { padding: 22px 26px 8px; }
+  .content { padding: 16px 26px 52px; }
+  .spot-info { left: 28px; bottom: 26px; max-width: 70%; }
+  .desktop { grid-template-columns: 244px minmax(0, 1fr); }
+}

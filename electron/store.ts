@@ -110,6 +110,13 @@ export async function getSettings(): Promise<Settings> {
         if (!settings.bigScreenRows.includes('mostPlayed')) settings.bigScreenRows = ['recent', 'mostPlayed', ...settings.bigScreenRows.filter((r) => r !== 'recent')];
         settings.settingsVersion = 2;
       }
+      // v3: the cinematic shell. Anyone still on the old default palette moves to the new one,
+      // and the sidebar starts as the floating rail; a theme you picked yourself is left alone.
+      if ((settings.settingsVersion ?? 1) < 3) {
+        if (settings.theme === 'ember') settings.theme = 'noir';
+        settings.sidebarCollapsed = true;
+        settings.settingsVersion = 3;
+      }
     } catch {
       settings = { ...DEFAULT_SETTINGS };
     }

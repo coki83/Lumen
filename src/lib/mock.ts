@@ -1,9 +1,9 @@
-import { DEFAULT_KEYS, DEFAULT_PAD, DEFAULT_SHORTCUTS } from '../../shared/bindings';
+﻿import { DEFAULT_KEYS, DEFAULT_PAD, DEFAULT_SHORTCUTS } from '../../shared/bindings';
 // Browser-only stand-in for the Electron bridge, so the UI can be developed and previewed with `npm run dev:web`.
 import type { Download, AccountInfo, Game, LibraryState, LumenApi, Settings, SourceId } from '../../shared/types';
 
 const DEFAULTS: Settings = {
-  theme: 'ember', accent: '', background: 'hero',
+  theme: 'noir', accent: '', background: 'hero',
   wallpaper: 'waves',
   videoFile: '',
   bigScreenBackground: 'game',
@@ -30,8 +30,8 @@ const DEFAULTS: Settings = {
   screensaverWhere: 'bigscreen',
   screensaverClock: true,
  backgroundImage: '', backgroundBlur: 40, backgroundDim: 0.7,
-  layout: 'grid', cardSize: 180, cardRadius: 12, cardStyle: 'classic', logoStyle: 'power', vibesStyle: 'panel', vibesMood: 'auto', newsLanguage: 'auto', language: 'auto', showTitles: true, showSourceBadges: true, sort: 'playtime', fontScale: 1,
-  font: 'theme', density: 'cozy', sidebarCollapsed: false, reduceMotion: false, startInBigScreen: false, launchOnStartup: false,
+  layout: 'grid', cardSize: 180, cardRadius: 18, cardStyle: 'classic', logoStyle: 'power', vibesStyle: 'panel', vibesMood: 'auto', newsLanguage: 'auto', language: 'auto', showTitles: true, showSourceBadges: true, sort: 'playtime', fontScale: 1,
+  font: 'theme', density: 'cozy', sidebarCollapsed: true, reduceMotion: false, startInBigScreen: false, launchOnStartup: false,
   minimizeOnLaunch: true, bigScreenLayout: 'rows', bigScreenRows: ['recent', 'favorites', 'all', 'sources'],
   enabledSources: { steam: true, epic: true, gog: true, ea: true, ubisoft: true, xbox: true, battlenet: true, amazon: true, quiver: true, manual: true },
   steamGridDbKey: '',
