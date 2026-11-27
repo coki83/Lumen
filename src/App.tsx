@@ -39,6 +39,7 @@ function useTheme() {
     root.dataset.canim = s.cardAnim ?? 'full';
     root.style.setProperty('--aspd', s.animSpeed === 'slow' ? '1.7' : s.animSpeed === 'fast' ? '0.6' : '1');
     root.dataset.motion = s.reduceMotion ? 'reduce' : 'full';
+    root.dataset.ui = s.ui ?? 'full';
     root.dataset.bg = s.background;
   }, [s]);
 }

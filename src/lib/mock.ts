@@ -19,6 +19,7 @@ const DEFAULTS: Settings = {
   globalBigScreenKey: '',
   confirmPower: true,
   scanOnStart: true,
+  ui: 'full',
   voice: false,
   voiceLaunch: true,
   voiceFeedback: true,

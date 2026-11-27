@@ -73,6 +73,18 @@ export function SettingsPanel({ onClose, tv = false }: { onClose(): void; tv?: b
         <div className="settings-body">
           {tab === 'look' && (
             <>
+              <h4>Interface</h4>
+              <label className="row"><span className="lbl">How much is on screen</span>
+                <Segmented value={s.ui ?? 'full'} onChange={(v) => set({ ui: v as 'full' | 'minimal' })}
+                  options={[{ value: 'full', label: 'Full' }, { value: 'minimal', label: 'Minimal' }]} />
+              </label>
+              <p className="hint">
+                Full is Lumen as it has always been. Minimal strips the chrome back to the games: panels lose their
+                fills, shadows and blur, the sidebar keeps the places but drops its headings, counts, drive space and
+                temperatures, and the vibes card, the weather chip, the launcher badges on tiles and Big Screen's
+                button hints go away. Nothing is taken out of the app, only off the screen, and switching back to
+                Full brings it all straight back.
+              </p>
               <h4>Theme</h4>
               <div className="themes">
                 {THEMES.map((t) => (

@@ -122,6 +122,8 @@ export interface Settings {
   /** Keep Lumen on screen while a launcher installs: its main window is pushed down and Lumen
    *  comes back to the front as soon as the download starts. Windows only. */
   stayInLumen: boolean;
+  /** How much of the interface is shown. 'full' is everything, 'minimal' strips it back. */
+  ui: 'full' | 'minimal';
   /** Listen for "OK Lumen" and the spoken commands. Windows only, and off until asked for. */
   voice: boolean;
   /** Let "play <game>" start a game by name. */

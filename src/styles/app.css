@@ -1319,3 +1319,54 @@ html[data-motion="reduce"] .vibes-games, html[data-motion="reduce"] .pulse-list 
 .bs-menu .drive small { font-size: .85rem; }
 .bs-menu .drives.compact .drive small { display: block; }
 .bs-menu .drives { padding-bottom: 6px; }
+
+/* ---------- Minimal interface ----------
+   Settings → Appearance → Interface. Everything here is a look: nothing is taken out of the app,
+   only off the screen, and Full brings it all straight back. The rule is that the games keep their
+   colour and everything around them gives it up: panels lose their fills, blur and shadows, and
+   the pieces that are commentary rather than content step aside. */
+
+/* The chrome goes flat. Tiles are left alone: their look belongs to the tile style. */
+html[data-ui="minimal"] .sidebar,
+html[data-ui="minimal"] .search,
+html[data-ui="minimal"] .vibes-mini { background: transparent; backdrop-filter: none; }
+html[data-ui="minimal"] .sidebar { border-right: 1px solid color-mix(in srgb, var(--text) 8%, transparent); padding: 16px 10px; }
+html[data-ui="minimal"] .spotlight { box-shadow: none; height: clamp(190px, 28vh, 320px); }
+html[data-ui="minimal"] .toolbar { padding-top: 14px; }
+html[data-ui="minimal"] .toolbar h1 { font-size: 1.3rem; font-weight: 650; }
+
+/* The place you are on is marked by a bar and the accent, not by a filled pill. */
+html[data-ui="minimal"] .nav-item { height: 34px; font-weight: 550; }
+html[data-ui="minimal"] .nav-item.on { background: transparent; color: var(--accent); box-shadow: inset 2px 0 0 var(--accent); border-radius: 0 10px 10px 0; }
+html[data-ui="minimal"] .nav-item.focused { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+
+/* Commentary, not content: the sidebar's headings and counts, the panels under it, the weather
+   chip, the vibes card, the launcher badge on every tile, and Big Screen's button hints. */
+html[data-ui="minimal"] .sidebar .nav-sec,
+html[data-ui="minimal"] .nav-item .count,
+html[data-ui="minimal"] .drive-panel,
+html[data-ui="minimal"] .temp-panel,
+html[data-ui="minimal"] .weather-chip,
+html[data-ui="minimal"] .vibes,
+html[data-ui="minimal"] .card .badge,
+html[data-ui="minimal"] .card .badge-icon,
+html[data-ui="minimal"] .bs .pad-badge,
+html[data-ui="minimal"] .bs-vibes:not(.bs-bg),
+html[data-ui="minimal"] .bs-hints,
+html[data-ui="minimal"] .bs-temps,
+html[data-ui="minimal"] .bs-weather,
+html[data-ui="minimal"] .bs-pad-readout { display: none !important; }
+
+/* Big Screen: the header carries the name, the tabs and the clock, and nothing else it can help. */
+html[data-ui="minimal"] .bs-top { padding-top: 26px; }
+html[data-ui="minimal"] .bs-tabs { background: transparent; border-color: transparent; }
+html[data-ui="minimal"] .bs-hint-btn { display: none; }
+html[data-ui="minimal"] .bs-exit:not(.icon) span { display: none; }
+html[data-ui="minimal"] .bs-exit:not(.icon) { padding: 0 10px; }
+html[data-ui="minimal"] .shelf-head h3, html[data-ui="minimal"] .bs-row-head { font-weight: 600; }
+
+/* Panels that are still needed keep their edge and lose their fill. */
+html[data-ui="minimal"] .dl-panel,
+html[data-ui="minimal"] .gamepage,
+html[data-ui="minimal"] .modal { box-shadow: none; }
+html[data-ui="minimal"] .btn:not(.primary) { background: transparent; border: 1px solid color-mix(in srgb, var(--text) 14%, transparent); }

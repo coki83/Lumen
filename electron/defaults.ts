@@ -17,6 +17,7 @@ export const DEFAULT_SETTINGS: Settings = {
   keyBindings: { ...DEFAULT_KEYS },
   padBindings: { ...DEFAULT_PAD },
   shortcuts: { ...DEFAULT_SHORTCUTS },
+  ui: 'full',
   voice: false,
   voiceLaunch: true,
   voiceFeedback: true,

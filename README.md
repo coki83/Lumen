@@ -217,6 +217,26 @@ Settings → Controls lets you rebind every navigation action to any key and any
 
 Default app shortcuts: Ctrl+B Big Screen, Ctrl+F search, F5 rescan, Ctrl+, settings, Ctrl+Shift+P power menu, Ctrl+N add a game, Ctrl+Shift+M music on or off, F11 full screen.
 
+## Full or Minimal
+
+Settings → Appearance → Interface has two settings, and Lumen starts on **Full**, which is the launcher exactly as it has always been.
+
+**Minimal** strips the chrome back to the games. Panels give up their fills, their shadows and their blur; the sidebar keeps every place you can go but drops its section headings, the game counts, drive space and temperatures; the page you are on is marked with a bar in your accent colour instead of a filled pill; and the vibes card, the weather chip and the launcher badge on every tile step out of the way. In Big Screen the header keeps the name, the tabs and the clock, and the vibes card, the temperature and weather chips, the controller readout and the row of button hints along the bottom are gone.
+
+Nothing is taken out of the app, only off the screen. Every one of those things is still reachable, and switching back to Full brings it all straight back. Tiles are left alone either way: how they look is the tile style's business, further down the same tab.
+
+Full:
+
+![Lumen's desktop view in Full](ui-full-desktop.png)
+
+Minimal:
+
+![The same screen in Minimal](ui-minimal-desktop.png)
+
+And Big Screen in Minimal:
+
+![Big Screen in Minimal](ui-minimal-big.png)
+
 ## Customization
 
 - 8 themes (Ember, Tide, Orchid, Moss, Arcade, Graphite, Paper, Frost), any accent color, 4 font styles, text size, density, corner roundness
